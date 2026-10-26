@@ -1,0 +1,7 @@
+# Cloudflare Pages: 301s from the old Wix URLs
+/products-1    /products          301
+/about-1       /about             301
+/events-news   /gallery           301
+/contact-us    /contact           301
+/opal          /products/opal     301
+/agate         /products/agate    301

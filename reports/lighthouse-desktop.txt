@@ -1,0 +1,9 @@
+/                      perf 100  a11y 100  bp 100  seo 100 | FCP 0.28s  LCP 0.64s  TBT 0ms  CLS 0.000  SI 0.43s
+  LCP element: 
+  audits < 0.9: unused-javascript, cache-insight, image-delivery-insight, lcp-discovery-insight, legacy-javascript-insight, network-dependency-tree-insight
+/products              perf 100  a11y 100  bp 100  seo 100 | FCP 0.24s  LCP 0.56s  TBT 0ms  CLS 0.000  SI 0.24s
+  LCP element: 
+  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
+/products/opal         perf 100  a11y 100  bp 100  seo 100 | FCP 0.36s  LCP 0.54s  TBT 0ms  CLS 0.000  SI 0.41s
+  LCP element: 
+  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight

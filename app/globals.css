@@ -1,0 +1,667 @@
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
+@source "../lib";
+@source "../data";
+
+/* ── Tokens: "Neon Laser" (PLAN §2, DECISIONS D-19) ─────────────────────── */
+:root {
+  --bg: #050608;
+  --surface: #0b0e14;
+  --surface-2: #111621;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.16);
+  --fg: #f4f7fb;
+  --fg-2: #9aa7b8;
+  --cyan: #00b4f0;
+  --magenta: #ff1f8e;
+  --wl-405: #8b5cf6;
+  --wl-405-text: #a78bfa;
+  --wl-520: #22ff88;
+  --wl-633: #ff2a3d;
+  --wl-785: #ffb020;
+  --wl-980: #b3122b;
+  /* Per-component accent, overridden inline by products/applications. */
+  --accent: var(--cyan);
+  --header-h: 64px;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-cyan: var(--cyan);
+  --color-magenta: var(--magenta);
+  --color-accent: var(--accent);
+  --color-wl-405: var(--wl-405);
+  --color-wl-405-text: var(--wl-405-text);
+  --color-wl-520: var(--wl-520);
+  --color-wl-633: var(--wl-633);
+  --color-wl-785: var(--wl-785);
+  --color-wl-980: var(--wl-980);
+  --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jbmono), ui-monospace, "SFMono-Regular", monospace;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html:not([data-motion="reduced"]) {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--bg);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "ss04";
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--cyan) 35%, transparent);
+    color: var(--fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ── Layout helpers ─────────────────────────────────────────────────────── */
+@utility container-x {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 16px;
+  @media (width >= 48rem) {
+    padding-inline: 32px;
+  }
+}
+
+/* Below-the-fold sections skip rendering work until near the viewport. */
+@utility cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* --accent-text is the contrast-safe variant (980 nm deep red is never text, D-19). */
+  color: var(--accent-text, var(--accent));
+}
+
+@utility mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ── Motifs ─────────────────────────────────────────────────────────────── */
+
+/* (a) Dot-matrix grid from the logo. Pure CSS, zero bytes of image. */
+@utility dot-grid {
+  background-image: radial-gradient(circle at center, rgb(255 255 255 / 0.11) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: center;
+}
+
+/* (d) Optical-table hole grid (M6 on 25 mm pitch, abstracted). */
+@utility optical-table {
+  background-color: #07090d;
+  background-image:
+    radial-gradient(circle at center, #000 2.2px, rgb(255 255 255 / 0.07) 2.8px, transparent 3.6px),
+    radial-gradient(120% 90% at 50% 0%, rgb(255 255 255 / 0.05), transparent 60%);
+  background-size: 28px 28px, 100% 100%;
+}
+
+/* Hairline grid used behind hero/sections. */
+@utility hairline-grid {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+/* (c) Corner-bracket "optical bench" frame: one ::after, four gradient strokes
+   (::before is reserved for glow-card, so the two utilities combine). */
+@utility bench-frame {
+  position: relative;
+  --bracket: color-mix(in srgb, var(--accent) 75%, transparent);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--bracket), var(--bracket)) top left / 16px 1px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) top left / 1px 16px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) bottom right / 16px 1px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) bottom right / 1px 16px no-repeat;
+  }
+}
+
+/* Dark glass card; a 1px gradient ring inside the border lights up on hover (opacity only).
+   Drawn inside the border box so overflow-hidden cards don't clip it. */
+@utility glow-card {
+  position: relative;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.01)), var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      140deg,
+      color-mix(in srgb, var(--accent) 90%, transparent),
+      transparent 40%,
+      transparent 60%,
+      color-mix(in srgb, var(--accent) 60%, transparent)
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  &:hover::before,
+  &:focus-within::before {
+    opacity: 1;
+  }
+}
+
+/* Pre-rendered soft glow (radial gradient, never an animated blur). */
+@utility glow-spot {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 28%, transparent), transparent);
+}
+
+/* ── (b) Beam lines ─────────────────────────────────────────────────────── */
+@layer components {
+  /* In a layer so utilities (e.g. `absolute`) can override position. */
+  .beam-line {
+    position: relative;
+    height: 1px;
+    overflow: hidden;
+    background: var(--line);
+  }
+}
+.beam-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--accent) 45%, #fff 50%, var(--accent) 55%, transparent);
+  transform: translateX(-100%);
+  opacity: 0;
+}
+[data-inview] .beam-line::after,
+.beam-line[data-inview]::after {
+  animation: beam-sweep 1.6s var(--ease-out-expo) forwards;
+}
+@keyframes beam-sweep {
+  0% {
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0.9;
+  }
+}
+
+/* ── Reveal (CSS + single IntersectionObserver, see components/motion/in-view.tsx) ── */
+.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.js .reveal[data-inview] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Marquee (pure CSS) ─────────────────────────────────────────────────── */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ── Dot-matrix loader (logo pattern) ───────────────────────────────────── */
+.dm-loader {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  width: 44px;
+}
+.dm-loader i {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--cyan);
+  transform: scale(var(--s, 0.6));
+  animation: dm-pulse 1.4s ease-in-out infinite;
+  animation-delay: calc(var(--d, 0) * 90ms);
+}
+@keyframes dm-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ── Reduced motion & low-power: kill non-essential animation ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+/* Low-power / no-GPU / save-data profile: all decorative motion off (set pre-paint by the
+   boot script, or after idle by FxBoot when no hardware compositing is available). */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+.js[data-motion="reduced"] .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Funder logos: greyscale → colour on hover (instant swap, no filter animation). */
+.logo-plate img {
+  filter: grayscale(1);
+  opacity: 0.75;
+}
+.logo-plate:hover img,
+.marquee:focus-visible .logo-plate img {
+  filter: none;
+  opacity: 1;
+}
+
+/* Explorer beam cursor: small element, so a drop-shadow glow is cheap. */
+.explorer-beam {
+  background: var(--beam);
+  filter: drop-shadow(0 0 6px var(--beam));
+}
+
+/* Dark-themed Google Maps embed (static filter, never animated). */
+.map-dark {
+  filter: invert(0.9) hue-rotate(180deg) saturate(0.6) brightness(0.95);
+}
+
+/* ══ FX layer (DECISIONS D-34). Everything here animates transform/opacity only,
+   or repaints small elements on pointer input. Loops pause off-screen via [data-loop]. ══ */
+
+[data-loop]:not([data-playing]) *,
+[data-loop]:not([data-playing]) {
+  animation-play-state: paused !important;
+}
+
+/* ── Hero laser stage ─────────────────────────────────────────────────── */
+.laserflow-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: fade-in 0.6s ease forwards;
+}
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+/* CSS beam: always present as the fallback; hidden once WebGL is live. */
+.beam-fallback {
+  --beam: #8b5cf6;
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 2px;
+  height: 150px; /* mobile: only the gap above the card, never across the text */
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--beam) 70%, transparent) 55%, #fff);
+  filter: drop-shadow(0 0 6px var(--beam));
+  transition: opacity 0.6s ease;
+}
+.beam-fallback::before {
+  /* travelling pulse */
+  content: "";
+  position: absolute;
+  left: -1px;
+  width: 4px;
+  height: 90px;
+  bottom: 0;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, transparent, #fff);
+  animation: beam-drop 2.4s cubic-bezier(0.5, 0, 0.75, 0) infinite;
+}
+.beam-fallback {
+  overflow: hidden;
+}
+@media (width >= 64rem) {
+  .beam-fallback {
+    height: 70vh;
+  }
+}
+@keyframes beam-drop {
+  from {
+    transform: translateY(-80vh);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.beam-impact {
+  position: absolute;
+  left: 50%;
+  top: -60px;
+  width: 340px;
+  height: 120px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--beam) 55%, transparent), transparent);
+  transition: opacity 0.6s ease;
+}
+.beam-edge {
+  position: absolute;
+  inset: -1px -1px auto;
+  height: 2px;
+  pointer-events: none;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(90deg, transparent, var(--beam) 30%, #fff 50%, var(--beam) 70%, transparent);
+  transition: opacity 0.6s ease;
+}
+[data-webgl="on"] .beam-fallback,
+[data-webgl="on"] .beam-impact,
+[data-webgl="on"] .beam-edge {
+  opacity: 0;
+}
+
+/* ── Aceternity "Spotlight" (pre-rendered gradient, no blur filter) ────── */
+.spotlight {
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  width: 140%;
+  height: 170%;
+  pointer-events: none;
+  background: radial-gradient(ellipse 28% 42% at 30% 30%, rgb(200 230 255 / 0.11), transparent 70%);
+  transform-origin: 30% 30%;
+  opacity: 0;
+  animation: spotlight-in 2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s forwards;
+}
+@keyframes spotlight-in {
+  from {
+    opacity: 0;
+    transform: translate(-18%, -16%) rotate(-28deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-28deg) scale(1);
+  }
+}
+
+/* ── Aceternity "Moving Border" (rotating conic on a pseudo; transform only) ── */
+.moving-border {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: transparent !important;
+}
+.moving-border::before {
+  content: "";
+  position: absolute;
+  inset: -200% -40%;
+  z-index: -2;
+  background: conic-gradient(from 0deg, transparent 0 290deg, var(--cyan) 330deg, #fff 350deg, transparent 360deg);
+  animation: spin 3.6s linear infinite;
+}
+.moving-border::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: #0c1018;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── ReactBits "SpotlightCard": cursor-following light on .glow-card (vars set by fx) ── */
+@property --spot {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+.glow-card {
+  background-image:
+    radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) calc(var(--spot) * 13%), transparent), transparent 42%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.01));
+  transition: --spot 0.35s ease;
+}
+.glow-card:hover {
+  --spot: 1;
+}
+
+/* ── ReactBits "TiltedCard" (vars set by fx; transform only) ────────────── */
+[data-tilt] {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+/* ── ReactBits "SplitText"-style word reveal (CSS, triggered by in-view) ── */
+.js .split-reveal .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.55em, 0) rotate(3deg);
+  transform-origin: 0 100%;
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
+  transition-delay: calc(var(--w) * 38ms);
+}
+.js .split-reveal[data-inview] .w {
+  opacity: 1;
+  transform: none;
+}
+.js[data-motion="reduced"] .split-reveal .w {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* ── Aceternity "Background Beams" (falling beams; transform only) ──────── */
+.beam-rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.beam-rain i {
+  /* deterministic pseudo-random spread from the index */
+  --x: calc(4% + var(--i) * 92% / (var(--n) - 1) + (mod(var(--i) * 7, 5) - 2) * 0.8%);
+  --h: calc(50px + mod(var(--i) * 37, 110) * 1px);
+  --d: calc(5s + mod(var(--i) * 13, 60) * 0.1s);
+  --delay: calc(mod(var(--i) * 29, 100) * -0.1s);
+  position: absolute;
+  top: 0;
+  width: 1.5px;
+  height: var(--h);
+  left: var(--x);
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, var(--c, var(--cyan)) 70%, #fff);
+  opacity: 0;
+  animation: rain var(--d, 7s) linear var(--delay, 0s) infinite;
+}
+.beam-rain i:nth-child(5n + 1) {
+  --c: var(--wl-405);
+}
+.beam-rain i:nth-child(5n + 3) {
+  --c: var(--wl-520);
+}
+.beam-rain i:nth-child(7n + 5) {
+  --c: var(--wl-633);
+}
+.beam-rain i:nth-child(9n + 8) {
+  --c: var(--wl-785);
+}
+.beam-rain i::after {
+  /* glowing head; the shadow is static and travels with the transform */
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  box-shadow: 0 0 10px 3px var(--c, var(--cyan));
+}
+@keyframes rain {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(var(--fall, 600px));
+    opacity: 0;
+  }
+}
+
+/* ── Story (Aceternity Sticky Scroll Reveal, driven by GSAP on desktop) ── */
+.story-scene {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.6s ease,
+    transform 0.8s var(--ease-out-expo);
+}
+.story-scene[data-active] {
+  opacity: 1;
+  transform: none;
+}
+.story-step {
+  transition: opacity 0.5s ease;
+}
+
+
+/* Light sweep through the gradient headline words ("ShinyText"); repaints only those glyphs. */
+.shine {
+  background-image: linear-gradient(100deg, #a78bfa 0%, var(--cyan) 30%, var(--wl-520) 45%, #ffffff 50%, var(--wl-520) 55%, var(--cyan) 70%, #a78bfa 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 6s ease-in-out 1.8s infinite;
+}
+@keyframes shine {
+  0%,
+  60% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+/* Story layout is decided at first paint (boot script sets data-motion before paint), so
+   GSAP mounting later never shifts layout. Desktop + motion → sticky stage; else inline. */
+.story-stage {
+  display: none;
+}
+@media (width >= 64rem) {
+  .js:not([data-motion="reduced"]) .story-stage {
+    display: block;
+  }
+  .js:not([data-motion="reduced"]) .story-inline {
+    display: none;
+  }
+  /* De-emphasis by colour, not opacity, so every text stays ≥ 4.5:1 (WCAG AA). */
+  .js:not([data-motion="reduced"]) [data-story] .story-step h3 {
+    transition: color 0.4s ease;
+  }
+  .js:not([data-motion="reduced"]) [data-story] .story-step:not([data-active]) h3 {
+    color: var(--fg-2);
+  }
+}
+.story-scene:not([data-active]) * {
+  animation-play-state: paused !important;
+}

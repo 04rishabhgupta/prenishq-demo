@@ -1,0 +1,14 @@
+route                        chunks   JS gz  HTML gz  inline CSS raw
+/                                 8  148.2 KB   77.6 KB    67.6 KB 
+/_not-found                       7  141.8 KB   52.3 KB    67.6 KB 
+/404                              7  141.8 KB   52.3 KB    67.6 KB 
+/about                            7  141.8 KB   62.1 KB    67.6 KB 
+/applications                     7  141.8 KB   68.4 KB    67.6 KB 
+/contact                          8  143.2 KB   54.6 KB    67.6 KB 
+/gallery                          8  142.9 KB   59.9 KB    67.6 KB 
+/products                         8  147.4 KB   63.7 KB    67.6 KB 
+/products/agate                   7  141.8 KB   63.6 KB    67.6 KB 
+/products/dbr                     7  141.8 KB   62.5 KB    67.6 KB 
+/products/dbr-pro                 7  141.8 KB   63.2 KB    67.6 KB 
+/products/opal                    7  141.8 KB   64.3 KB    67.6 KB 
+/products/ta                      7  141.8 KB   62.1 KB    67.6 KB 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg style="--accent:#8B5CF6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" width="520" height="360"><style>
+.packet{animation:packet-run 1.6s cubic-bezier(.45,0,.6,1) infinite}
+@keyframes packet-run{from{transform:translateX(-36px);opacity:0}15%{opacity:1}85%{opacity:1}to{transform:translateX(var(--len));opacity:0}}
+.lock-dot{transform-box:fill-box;transform-origin:center;animation:lock-pulse 1.8s ease-in-out infinite}
+@keyframes lock-pulse{50%{transform:scale(1.6);opacity:.5}}
+.cloud{transform-box:fill-box;transform-origin:center;animation:cloud-breathe 3.2s ease-in-out infinite}
+@keyframes cloud-breathe{50%{transform:scale(.82);opacity:.85}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style><g transform="translate(260 180) rotate(0)"><rect x="-230" y="-9" width="460" height="18" fill="var(--accent)" fill-opacity="0.09"></rect><line x1="-230" x2="230" y1="0" y2="0" stroke="var(--accent)" stroke-opacity="0.6"></line></g><g transform="translate(260 180) rotate(60)"><rect x="-230" y="-9" width="460" height="18" fill="var(--accent)" fill-opacity="0.09"></rect><line x1="-230" x2="230" y1="0" y2="0" stroke="var(--accent)" stroke-opacity="0.6"></line></g><g transform="translate(260 180) rotate(120)"><rect x="-230" y="-9" width="460" height="18" fill="var(--accent)" fill-opacity="0.09"></rect><line x1="-230" x2="230" y1="0" y2="0" stroke="var(--accent)" stroke-opacity="0.6"></line></g><g class="cloud"><circle cx="260" cy="180" r="52" fill="var(--accent)" opacity="0.12"></circle><circle cx="260" cy="180" r="36.4" fill="var(--accent)" opacity="0.2"></circle><circle cx="260" cy="180" r="23.400000000000002" fill="var(--accent)" opacity="0.35"></circle><circle cx="260" cy="180" r="11.44" fill="#fff" opacity="0.9"></circle></g><text x="260" y="330" text-anchor="middle" fill="#9AA7B8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">magneto-optical trap · Cs at 15 µK</text></svg>

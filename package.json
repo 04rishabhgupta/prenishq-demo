@@ -1,0 +1,47 @@
+{
+  "name": "prenishq-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "serve out -l 4321",
+    "lint": "eslint",
+    "media": "node scripts/optimize-images.mjs",
+    "analyze": "ANALYZE=true next build",
+    "report:bundle": "node scripts/bundle-report.mjs",
+    "report:lighthouse": "node scripts/lighthouse.mjs http://localhost:4321 / /products /products/opal /applications /about /gallery /contact",
+    "check:interactions": "node scripts/interaction-check.mjs .",
+    "prebuild": "node scripts/build-story-svgs.mjs"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^6.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "gsap": "3.15.0",
+    "motion": "14.6.0",
+    "next": "16.4.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "7.91.0",
+    "tailwind-merge": "^3.7.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "16.4.3",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "esbuild": "^0.28.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "lighthouse": "13.5.0",
+    "puppeteer-core": "^24.43.1",
+    "serve": "^14.2.6",
+    "sharp": "0.35.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "packageManager": "pnpm@10.34.7"
+}
