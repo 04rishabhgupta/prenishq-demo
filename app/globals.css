@@ -654,3 +654,69 @@
 .story-scene:not([data-active]) * {
   animation-play-state: paused !important;
 }
+
+/* ── Footer: giant wordmark over a square grid with a few lit cells (Q-CTRL pattern) ── */
+.footer-grid {
+  --cell: 18px;
+  isolation: isolate;
+}
+@media (min-width: 640px) {
+  .footer-grid {
+    --cell: 28px;
+  }
+}
+.footer-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  mask-image: linear-gradient(to bottom, transparent, #000 45%);
+}
+.footer-cells {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent, #000 50%);
+}
+.footer-cells i {
+  /* deterministic scatter, snapped to the grid */
+  --x: round(down, calc(mod(var(--i) * 37 + 3, 97) * 1%), var(--cell));
+  --y: round(down, calc(mod(var(--i) * 53 + 11, 88) * 1%), var(--cell));
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--cell);
+  height: var(--cell);
+  background: var(--c, var(--cyan));
+  opacity: 0;
+  animation: cell-blink calc(6s + mod(var(--i) * 13, 40) * 0.1s) ease-in-out calc(mod(var(--i) * 29, 90) * -0.1s) infinite;
+}
+.footer-cells i:nth-child(4n + 1) {
+  --c: var(--magenta);
+}
+.footer-cells i:nth-child(6n + 3) {
+  --c: var(--wl-520);
+}
+.footer-cells i:nth-child(7n + 5) {
+  --c: var(--wl-405);
+}
+@keyframes cell-blink {
+  0%,
+  55%,
+  100% {
+    opacity: 0;
+  }
+  70%,
+  85% {
+    opacity: 0.55;
+  }
+}
+/* Reduced profile: a static scatter instead of the twinkle. */
+[data-motion="reduced"] .footer-cells i:nth-child(3n) {
+  opacity: 0.35;
+}

@@ -14,9 +14,9 @@ export function LogoSymbol() {
             {logo.circles.map(([cx, cy, r], i) => (
               <circle key={i} cx={Math.round(cx)} cy={Math.round(cy)} r={r} />
             ))}
-            <path d={logo.word} />
+            <path id="prenishq-word" d={logo.word} />
           </g>
-          <path fill={MAGENTA} d={logo.dot} />
+          <path id="prenishq-dot" fill={MAGENTA} d={logo.dot} />
         </symbol>
       </defs>
     </svg>
@@ -27,6 +27,19 @@ export function Logo({ className, title = "PrenishQ" }: { className?: string; ti
   return (
     <svg viewBox="8 14 2342 392" className={cn("h-7 w-auto", className)} role="img" aria-label={title}>
       <use href="#prenishq-logo" />
+    </svg>
+  );
+}
+
+/**
+ * Wordmark only (no dot grid), reusing the paths defined once in <LogoSymbol />.
+ * Letters take `currentColor`; the dot over the "i" keeps its magenta.
+ */
+export function Wordmark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="378 14 1974 392" className={className} aria-hidden="true" focusable="false">
+      <use href="#prenishq-word" fill="currentColor" />
+      <use href="#prenishq-dot" />
     </svg>
   );
 }
