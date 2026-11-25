@@ -57,7 +57,9 @@ const bootScript = `(function(h){h.classList.add('js');try{var n=navigator,c=n.c
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
+    // data-scroll-behavior="smooth": Next disables smooth scrolling during route changes, so every
+    // page opens at the top instantly; in-page anchor links stay smooth (Next 16 upgrade guide).
+    <html lang="en-IN" data-scroll-behavior="smooth" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
