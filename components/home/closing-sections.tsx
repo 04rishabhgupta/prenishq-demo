@@ -1,40 +1,9 @@
 import { Section, SectionHeading } from "@/components/ui/section";
-import { ButtonLink, QuoteButton, buttonVariants } from "@/components/ui/button";
+import { QuoteButton, buttonVariants } from "@/components/ui/button";
 import { Icon, type IconName } from "@/components/icons";
 import { BeamRain } from "@/components/motion/beam-rain";
 import { SplitReveal } from "@/components/motion/split-reveal";
-import { applicationAreas, mission, whyUs } from "@/data/site";
-
-export function ApplicationsStrip() {
-  return (
-    <Section labelledBy="areas-title">
-      <div className="container-x">
-        <SectionHeading
-          id="areas-title"
-          eyebrow="Applications"
-          title="Precision lasers, limitless possibilities."
-          intro="From cancer-cell imaging to cold-atom quantum computing, the same requirements recur: a clean spectrum, stable power and a wavelength that matches the physics."
-        >
-          <ButtonLink href="/applications" variant="secondary" className="reveal">
-            Explore applications <Icon name="arrow-right" />
-          </ButtonLink>
-        </SectionHeading>
-        <ol className="grid grid-cols-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
-          {applicationAreas.map((a, i) => (
-            <li
-              key={a}
-              className="reveal group flex items-center justify-between gap-4 border-b border-r border-line px-5 py-6 transition-colors hover:bg-white/[0.02]"
-              style={{ ["--i" as string]: i % 3 }}
-            >
-              <span className="text-lg">{a}</span>
-              <span className="font-mono text-xs text-fg-2 group-hover:text-cyan">{String(i + 1).padStart(2, "0")}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </Section>
-  );
-}
+import { mission, whyUs } from "@/data/site";
 
 export function WhyPrenishQ() {
   return (
@@ -66,9 +35,9 @@ export function WhyPrenishQ() {
 
 const PILLAR_ICONS: IconName[] = ["gear", "chart", "infinity", "leaf"];
 
-export function MissionVision() {
+export function MissionVision({ id }: { id?: string }) {
   return (
-    <Section labelledBy="mission-title" className="border-t border-line">
+    <Section id={id} labelledBy="mission-title" className="border-t border-line">
       <div aria-hidden className="dot-grid absolute inset-0 opacity-50 [mask-image:radial-gradient(60%_60%_at_50%_40%,#000,transparent)]" />
       <div className="container-x relative grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-7">

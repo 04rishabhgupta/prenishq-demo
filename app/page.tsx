@@ -3,11 +3,11 @@ import { Hero } from "@/components/home/hero";
 import { Credibility } from "@/components/home/credibility";
 import { KeyNumbers } from "@/components/home/key-numbers";
 import { ProductBento } from "@/components/home/product-bento";
-import { WavelengthExplorer } from "@/components/home/wavelength-explorer";
 import { LabProof } from "@/components/home/lab-proof";
-import { Story } from "@/components/home/story";
-import { ApplicationsStrip, CtaBand, MissionVision, WhyPrenishQ } from "@/components/home/closing-sections";
-import { Section, SectionHeading } from "@/components/ui/section";
+import { HowTeaser } from "@/components/home/how-teaser";
+import { CtaBand, WhyPrenishQ } from "@/components/home/closing-sections";
+import { ApplicationOutcomes } from "@/components/home/application-outcomes";
+import { Updates, Voices } from "@/components/home/client-sections";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   openGraph: { title: site.tagline, url: "/" },
 };
 
+// Home is an overview that routes to the four main pages (PLAN §11).
 export default function HomePage() {
   return (
     <>
@@ -25,22 +26,12 @@ export default function HomePage() {
       <Credibility />
       <KeyNumbers />
       <ProductBento />
-      <Story />
-      <Section labelledBy="explorer-title" className="border-t border-line">
-        <div className="container-x">
-          <SectionHeading
-            id="explorer-title"
-            eyebrow="Wavelength explorer"
-            title="Pick a wavelength. See what lights up."
-            intro="Drag across the spectrum, choose a preset or jump to an atomic line to see which instruments cover it and where they're used."
-          />
-          <WavelengthExplorer />
-        </div>
-      </Section>
+      <ApplicationOutcomes />
+      <HowTeaser />
       <LabProof />
-      <ApplicationsStrip />
+      <Voices />
+      <Updates />
       <WhyPrenishQ />
-      <MissionVision />
       <CtaBand />
     </>
   );

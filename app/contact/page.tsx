@@ -3,6 +3,9 @@ import { EnquiryFormLazy } from "@/components/forms/enquiry-form-lazy";
 import { MapFacade } from "@/components/contact/map-facade";
 import { Icon } from "@/components/icons";
 import { site } from "@/data/site";
+import { siteFaq } from "@/data/content";
+import { Faq } from "@/components/ui/faq";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -20,9 +23,14 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Let's talk about your setup."
         intro="Tell us about your application, wavelength and power requirements. Our team will reply with a recommended configuration and lead time."
+        sections={[
+          { id: "enquiry", label: "Send an enquiry" },
+          { id: "faq", label: "FAQ" },
+          { id: "location", label: "Find us" },
+        ]}
       />
 
-      <section aria-labelledby="enquiry-title" className="py-12 sm:py-16">
+      <section id="enquiry" aria-labelledby="enquiry-title" className="scroll-mt-24 py-12 sm:py-16">
         <div className="container-x grid gap-10 lg:grid-cols-12">
           <div className="glow-card bench-frame p-5 sm:p-8 lg:col-span-7">
             <h2 id="enquiry-title" className="mb-6 text-2xl font-medium">
@@ -59,11 +67,37 @@ export default function ContactPage() {
                 </span>
               </address>
             </div>
+            {/* Buyer routing (Nireos "which product fits my case?") */}
+            <div className="glow-card p-5">
+              <h3 className="font-medium">Not sure which product fits?</h3>
+              <p className="mt-1 text-sm text-fg-2">See which instruments cover your wavelength, or compare specifications side by side.</p>
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                <Link href="/products#find" className="inline-flex items-center gap-1.5 text-cyan hover:underline">
+                  Find your laser <Icon name="arrow-right" className="size-4" />
+                </Link>
+                <Link href="/products" className="inline-flex items-center gap-1.5 text-cyan hover:underline">
+                  Compare products <Icon name="arrow-right" className="size-4" />
+                </Link>
+              </div>
+            </div>
           </aside>
         </div>
       </section>
 
-      <section aria-labelledby="map-title" className="cv-auto border-t border-line py-12 sm:py-16">
+      <section id="faq" aria-labelledby="contact-faq-title" className="scroll-mt-24 border-t border-line py-16 sm:py-24">
+        <div className="container-x grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <p className="eyebrow mb-4">FAQ</p>
+            <h2 id="contact-faq-title" className="text-3xl font-medium leading-tight">
+              Frequently asked questions
+            </h2>
+            <p className="mt-4 text-fg-2">Quick answers on products, wavelengths, lead times, support and education.</p>
+          </div>
+          <Faq items={siteFaq} className="lg:col-span-8" />
+        </div>
+      </section>
+
+      <section id="location" aria-labelledby="map-title" className="cv-auto border-t border-line py-12 sm:py-16">
         <div className="container-x">
           <h2 id="map-title" className="mb-6 text-2xl font-medium">
             Find us at IIT Delhi

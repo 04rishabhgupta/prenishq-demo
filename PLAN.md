@@ -1,6 +1,6 @@
 # PrenishQ website rebuild: plan
 
-Status: **Built (2026-10-26).** All pages implemented; see DECISIONS.md "Build log" for what changed from this plan, and `reports/` for measurements.
+Status: **Built (2026-10-26); restructured to five main pages (2026-11-25, §11).** All pages implemented; see DECISIONS.md "Build log" for what changed from this plan, and `reports/` for measurements.
 Sources read: live site (all 7 routes crawled, raw HTML + Wix media), `reference/` (4 screenshots + `Prenishq_Product_Catalog.pdf`, 8 pages).
 
 ---
@@ -225,3 +225,56 @@ Content accuracy issues on the live Applications page (to be corrected, not carr
 14. Social links (LinkedIn etc.), CIN / legal footer details if desired.
 15. Permission and exact credit line for the cancer-cell image (Prof. Sudipta Maiti, BITS Pilani Hyderabad).
 16. Production domain + host choice (Vercel vs Cloudflare Pages).
+
+---
+
+## 10. Content placement round (2026-11-25): ideas from peer sites, current UI kept
+
+Reviewed: Toptica, Santec Quantum Instruments, Hamamatsu Lasers & Fibers, Vescent, LEOS Solutions, Infleqtion, Q-CTRL, QuEra, Pasqal, Atom Computing and Nireos. AOSense failed to load (TLS certificate error).
+
+**Information architecture.** The header nav is now Products · Applications · Technology · Resources · About · Contact. Home is the logo. Gallery appears in the footer, About and Resources.
+
+| Area | What changed | Pattern from |
+|---|---|---|
+| Home | Outcome-led application cards (replacing the plain list of nine areas). Order: Hero → trust strip → key numbers → applications → products → story → lab proof → *Voices* → explorer (`#explorer`) → *Updates* → why us → mission → FAQ → CTA. Italics = hidden until client content. | Toptica, LEOS, Infleqtion, Hamamatsu |
+| Products | Resource strip under the hero (catalogue, find your laser, systems, FAQ). New "Suggested systems" section (`#systems`) chaining instruments for complete setups. | Santec, Vescent, Toptica |
+| Product pages | Sticky section bar (plain anchors). "Why it matters" benefits before the specs. Specs grouped Optical / Tuning / Stability / Integration / Use. Wavelength-availability card with "ask us". Models table and publications appear once supplied. Downloads. "Works with" replaces "related". Product FAQ with FAQPage JSON-LD. | Toptica, Vescent, Hamamatsu, Nireos |
+| Applications | One static page per field (`/applications/[slug]`): requirements, schematic, recommended instruments with reasons, the lab results that genuinely belong to the field, related fields. | Vescent Solutions, Toptica, Hamamatsu cases |
+| Technology (new) | How the lasers work (diode → external cavity → atomic lock → amplifier → cold atoms) using the story diagrams. Status table with "Available now" / "In development" labels and no dates. Glossary teaser. | Infleqtion, QuEra, Pasqal |
+| Resources (new) | Quick links, downloads centre, application notes and publications (once supplied), site FAQ, a 24-term glossary. | Santec, Q-CTRL, QuEra |
+| About | Milestones and team are now data-driven and hidden until supplied (the placeholder team cards are removed). "Explore further" links. | Atom Computing, Pasqal |
+| Contact | "Not sure which product fits?" routing to the explorer and comparison. Short FAQ. | Nireos, Vescent |
+
+**Not copied:** funding totals, stat bars or logo walls we can't verify; shop; AI chat; gated content; audience portals; newsletter (it needs a mailing backend, so it was deferred).
+
+**New TODO(client) items:**
+- Product codes and variants for the models tables.
+- Per-product datasheets, manuals and CAD (STEP) files.
+- Grouped specs with min / typ / max values.
+- Testimonials with name, role, institution and paper; the list of labs using PrenishQ lasers.
+- Publications and application notes.
+- Events and news.
+- Team and advisors; dated milestones; roadmap dates.
+- Confirmation of the "In development" wording for quantum sensors and quantum computing subsystems.
+- Distributor programme, warranty and RMA terms, if any.
+
+---
+
+## 11. Five-page restructure (2026-11-25): less confusing, same UI
+
+The client found eight top-level pages plus sub-pages confusing. The site now has **five main pages**: Home · Products · Technology · About · Contact. Each answers one visitor question. Content was moved, not dropped. This supersedes the navigation in §10.
+
+| Content | Was | Now |
+|---|---|---|
+| Diode-to-sensor scroll story | Home | Technology → How it works. Each step now has a textbook explanation plus the product fact. Home has a compact 5-step teaser linking to it. |
+| Wavelength explorer | Home | Products → Find your laser (lazy-loaded below the fold) |
+| Applications overview + 6 detail pages | `/applications`, `/applications/[slug]` | Technology → Applications; `/technology/[slug]` |
+| Lab results | Home | Home keeps 4 highlights; Technology → Lab results shows all 5 (adds ¹³³Cs SAS) |
+| Downloads | `/resources` | Products → Downloads |
+| FAQ | Home, `/resources` | Contact → FAQ (the only copy) |
+| Glossary | `/resources`, Technology teaser | Technology → Glossary (full) |
+| Gallery | `/gallery` | About → Inside the lab |
+| Mission and vision | Home, About | About only |
+| Privacy | n/a | `/privacy` (new), linked from the footer and the form. TODO(client): legal review. |
+
+Every long page has an "On this page" row of anchors under its title. The footer is now a site index (Products / Technology / Company / Contact, each with its key sections). Retired URLs 301 to their new location (`public/_redirects`, `vercel.json`). An internal link and anchor crawl of the export found 0 broken links.

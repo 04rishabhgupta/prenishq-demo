@@ -189,3 +189,24 @@ Gating, in order:
 Home mobile Lighthouse is back to 95, with FCP 1.05 s and LCP 2.91 s, identical to before the upgrade.
 
 **Accessibility:** inactive story steps are de-emphasised by colour, not opacity, so all text stays ≥ 4.5:1. The cycling λ label is not announced via `aria-live`. All effects are decorative and `aria-hidden`.
+
+---
+
+**D-35 Content placement round defaults** (user said "proceed" without choosing; each is reversible):
+1. **Roadmap:** status labels only, no invented dates.
+2. **Application detail pages:** built, as static pages.
+3. **Client-dependent sections:** data-driven and hidden while empty. The demo never shows "coming soon" holes.
+4. **Newsletter:** deferred, because it needs a mailing backend. Events and news use the hidden-while-empty pattern.
+
+New pages and sections are server-rendered with no new client JS: native `<details>` for FAQs and plain anchors for the product section bar. First-load JS is unchanged at 141.8–148.2 KB per route.
+
+---
+
+**D-36 Five-page information architecture** (2026-11-25, user: "proceed with best effort and expert standpoint"). Calls made:
+1. The scroll story moves to Technology as its centrepiece. Home keeps a compact teaser, so there is one explanation, not two.
+2. Application detail pages stay as Technology sub-pages, valuable for expert buyers and search, but they are not in the navigation.
+3. The explorer moves to Products and is lazy-loaded below the fold. Products first-load JS would otherwise have been 149.9 KB; it is now 147.6 KB.
+4. A privacy notice is added, describing only what the site actually does. It is marked for legal review.
+5. **Next.js upgraded 16.4.3 → 16.4.6** to patch a known security vulnerability. The build reported it and stopped on alternate builds; it is clean since.
+
+Home's HTML is lighter (82 → 74 KB gz) and its first-load JS dropped to 142.4 KB because the story and explorer left it.

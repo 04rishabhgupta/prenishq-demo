@@ -15,6 +15,8 @@ import { JsonLd, pageMetadata, productJsonLd } from "@/lib/seo";
 import { accentVars } from "@/lib/accent";
 import { PALETTE } from "@/data/wavelengths";
 import { cn } from "@/lib/cn";
+import { productExtras, SPEC_GROUPS, SPEC_GROUP_ORDER } from "@/data/product-extras";
+import { Faq } from "@/components/ui/faq";
 
 export const dynamicParams = false;
 
@@ -40,7 +42,17 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
   if (!p) notFound();
 
   const usedIn = applications.filter((a) => a.products.some((x) => x.slug === p.slug));
-  const related = p.related.map((s) => productBySlug[s]);
+  const x = productExtras[p.slug];
+  const hasProof = p.figures.length > 0 || p.slug === "opal";
+  const groups = SPEC_GROUP_ORDER.map((g) => ({ g, rows: p.specs.filter((s) => (SPEC_GROUPS[s.label] ?? "General") === g) })).filter((x) => x.rows.length);
+  const sections = [
+    ["why", "Overview"],
+    ["specs", "Specifications"],
+    ["apps", "Applications"],
+    ...(hasProof ? [["proof", "Results"]] : []),
+    ["downloads", "Downloads"],
+    ["faq", "FAQ"],
+  ] as const;
 
   return (
     <div style={accentVars(p.accent)}>
@@ -100,8 +112,42 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
         </div>
       </section>
 
+      {/* In-page section bar (Hamamatsu/Santec pattern): plain anchors, no JS. */}
+      <nav aria-label={`${p.name} sections`} className="sticky top-[var(--header-h)] z-30 border-b border-line bg-bg/95 md:bg-bg/80 md:backdrop-blur-md">
+        <div className="container-x flex items-center justify-between gap-4">
+          <ul className="-mx-3 flex overflow-x-auto [scrollbar-width:none]">
+            {sections.map(([id, label]) => (
+              <li key={id}>
+                <a href={`#${id}`} className="block whitespace-nowrap px-3 py-3.5 text-sm text-fg-2 transition-colors hover:text-fg">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <QuoteButton product={p.name} size="sm" className="hidden shrink-0 md:inline-flex" />
+        </div>
+      </nav>
+
+      {/* Why it matters (Toptica "Your benefits"): reasons before numbers. */}
+      <Section id="why" labelledBy="why-title" lazy={false}>
+        <div className="container-x">
+          <SectionHeading id="why-title" eyebrow="Why it matters" title={`What ${p.name} brings to your setup`} />
+          <ul className={cn("grid gap-4 sm:grid-cols-2", x.benefits.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3")}>
+            {x.benefits.map((b, i) => (
+              <li key={b.title} className="glow-card reveal flex flex-col gap-3 p-6" style={{ ["--i" as string]: i }}>
+                <span className="font-mono text-xs" style={{ color: "var(--accent-text)" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="text-lg font-medium leading-snug">{b.title}</h3>
+                <p className="text-sm leading-relaxed text-fg-2">{b.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+
       {/* Specifications */}
-      <Section labelledBy="specs-title" lazy={false}>
+      <Section id="specs" labelledBy="specs-title" lazy={false} className="border-t border-line">
         <div className="container-x grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <p className="eyebrow mb-4">Specifications</p>
@@ -109,31 +155,65 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
               Key specifications
             </h2>
             <p className="mt-4 text-fg-2">From the PrenishQ product catalogue. Contact us for configurations, mechanical drawings and test reports.</p>
+            <div className="glow-card mt-8 p-5">
+              <h3 className="text-sm font-medium">Wavelength availability</h3>
+              <p className="mt-2 text-sm leading-relaxed text-fg-2">{x.availability}</p>
+              <QuoteButton product={p.name} variant="link" size="sm" className="mt-3 h-auto px-0">
+                Need another wavelength? Ask us <Icon name="arrow-right" />
+              </QuoteButton>
+            </div>
           </div>
-          <div className="lg:col-span-8">
-            <table className="w-full border-collapse text-left">
-              <caption className="sr-only">{p.fullName} specifications</caption>
-              <tbody>
-                {p.specs.map((s) => (
-                  <tr key={s.label} className="border-b border-line">
-                    <th scope="row" className="w-2/5 py-4 pr-4 align-top text-sm font-normal text-fg-2 sm:w-1/3">
-                      {s.label}
-                    </th>
-                    <td className="py-4 align-top">
-                      <span className="font-mono text-base sm:text-lg">{s.value}</span>
-                      {s.unit && <span className="ml-1.5 font-mono text-fg-2">{s.unit}</span>}
-                      {s.note && <span className="block text-sm text-fg-2">{s.note}</span>}
-                    </td>
+          <div className="space-y-8 lg:col-span-8">
+            {groups.map(({ g, rows }) => (
+              <table key={g} className="w-full border-collapse text-left">
+                <caption className="mb-1 text-left font-mono text-xs uppercase tracking-[0.14em] text-fg-2">{g}</caption>
+                <tbody>
+                  {rows.map((s) => (
+                    <tr key={s.label} className="border-b border-line">
+                      <th scope="row" className="w-2/5 py-4 pr-4 align-top text-sm font-normal text-fg-2 sm:w-1/3">
+                        {s.label}
+                      </th>
+                      <td className="py-4 align-top">
+                        <span className="font-mono text-base sm:text-lg">{s.value}</span>
+                        {s.unit && <span className="ml-1.5 font-mono text-fg-2">{s.unit}</span>}
+                        {s.note && <span className="block text-sm text-fg-2">{s.note}</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ))}
+            {x.models.length > 0 && (
+              <table className="w-full border-collapse text-left">
+                <caption className="mb-1 text-left font-mono text-xs uppercase tracking-[0.14em] text-fg-2">Models</caption>
+                <thead>
+                  <tr className="border-b border-line text-sm text-fg-2">
+                    <th scope="col" className="py-3 pr-4 font-normal">Product code</th>
+                    <th scope="col" className="py-3 pr-4 font-normal">Configuration</th>
+                    <th scope="col" className="py-3 font-normal">Price</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {x.models.map((m) => (
+                    <tr key={m.code} className="border-b border-line">
+                      <td className="py-3 pr-4 font-mono">{m.code}</td>
+                      <td className="py-3 pr-4 text-sm text-fg-2">{m.description}</td>
+                      <td className="py-3 text-sm">
+                        <QuoteButton product={`${p.name} ${m.code}`} variant="link" size="sm" className="h-auto px-0">
+                          Contact sales
+                        </QuoteButton>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </Section>
 
       {/* Applications */}
-      <Section labelledBy="apps-title" className="border-t border-line">
+      <Section id="apps" labelledBy="apps-title" className="border-t border-line">
         <div className="container-x">
           <SectionHeading id="apps-title" eyebrow="Applications" title={`Where ${p.name} is used`} />
           <ul className="grid grid-cols-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
@@ -149,7 +229,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
               {usedIn.map((a) => {
                 const why = a.products.find((x) => x.slug === p.slug)!.why;
                 return (
-                  <Link key={a.slug} href={`/applications#${a.slug}`} className="glow-card reveal group flex flex-col gap-3 p-5" style={accentVars(a.accent)}>
+                  <Link key={a.slug} href={`/technology/${a.slug}`} className="glow-card reveal group flex flex-col gap-3 p-5" style={accentVars(a.accent)}>
                     <span className="text-lg font-medium">{a.title}</span>
                     <span className="text-sm leading-relaxed text-fg-2">{why}</span>
                     <span className="mt-auto inline-flex items-center gap-1.5 text-sm text-fg-2 group-hover:text-fg">
@@ -164,8 +244,8 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
       </Section>
 
       {/* Demonstrated results */}
-      {(p.figures.length > 0 || p.slug === "opal") && (
-        <Section labelledBy="proof-title" className="border-t border-line bg-surface/40">
+      {hasProof && (
+        <Section id="proof" labelledBy="proof-title" className="border-t border-line bg-surface/40">
           <div className="container-x">
             <SectionHeading id="proof-title" eyebrow="Demonstrated" title="Results from the lab" />
             <div className="grid gap-4 md:grid-cols-2">
@@ -209,6 +289,83 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
         </Section>
       )}
 
+      {/* Downloads (+ publications once supplied) */}
+      <Section id="downloads" labelledBy="downloads-title" className="border-t border-line">
+        <div className="container-x grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <p className="eyebrow mb-4">Downloads</p>
+            <h2 id="downloads-title" className="text-3xl font-medium">
+              Documents
+            </h2>
+            <p className="mt-4 text-fg-2">Need a datasheet, drawing or test report for {p.name}? We send them on request.</p>
+          </div>
+          <div className="lg:col-span-8">
+            <ul className="divide-y divide-line border-y border-line">
+              {x.downloads.map((d) => (
+                <li key={d.href}>
+                  <a href={d.href} download className="group flex items-center justify-between gap-4 py-4">
+                    <span className="flex items-center gap-3">
+                      <span className="grid size-10 place-items-center rounded-md border border-line-strong font-mono text-[10px] uppercase text-fg-2">{d.kind}</span>
+                      <span>{d.label}</span>
+                    </span>
+                    <span className="flex items-center gap-2 font-mono text-xs text-fg-2 group-hover:text-fg">
+                      {d.size} <Icon name="download" className="size-4" />
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {x.publications.length > 0 && (
+              <>
+                <h3 className="mb-3 mt-10 font-mono text-xs uppercase tracking-[0.14em] text-fg-2">Publications using {p.name}</h3>
+                <ul className="space-y-3 text-sm">
+                  {x.publications.map((pub) => (
+                    <li key={pub.title}>
+                      <a href={pub.url} className="hover:text-cyan">{pub.title}</a>
+                      <span className="block text-fg-2">
+                        {pub.authors} · {pub.venue} ({pub.year})
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </div>
+      </Section>
+
+      {/* Works with (merges "related products" with the reason to pair them) */}
+      <Section labelledBy="works-title" className="border-t border-line">
+        <div className="container-x">
+          <SectionHeading id="works-title" eyebrow="Works with" title={`Build a system around ${p.name}`}>
+            <Link href="/products#systems" className={cn(buttonVariants({ variant: "secondary" }), "reveal")}>
+              Suggested systems <Icon name="arrow-right" />
+            </Link>
+          </SectionHeading>
+          <ul className="grid gap-4 md:grid-cols-2">
+            {x.worksWith.map((w) => (
+              <li key={w.slug} className="reveal flex flex-col gap-3">
+                <p className="text-sm leading-relaxed text-fg-2">{w.why}</p>
+                <ProductCard product={productBySlug[w.slug]} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+
+      {/* Product FAQ */}
+      <Section id="faq" labelledBy="faq-title" className="border-t border-line">
+        <div className="container-x grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <p className="eyebrow mb-4">FAQ</p>
+            <h2 id="faq-title" className="text-3xl font-medium">
+              Questions about {p.name}
+            </h2>
+          </div>
+          <Faq items={x.faq} className="lg:col-span-8" />
+        </div>
+      </Section>
+
       {/* Laser safety */}
       <section aria-labelledby="safety-title" className="border-t border-line">
         <div className="container-x py-10">
@@ -227,20 +384,6 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
           </div>
         </div>
       </section>
-
-      {/* Related */}
-      <Section labelledBy="related-title" className="border-t border-line">
-        <div className="container-x">
-          <SectionHeading id="related-title" eyebrow="Related" title="Often used together" />
-          <ul className="grid gap-4 md:grid-cols-2">
-            {related.map((r) => (
-              <li key={r.slug} className="reveal">
-                <ProductCard product={r} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Section>
 
       <section aria-labelledby="quote-title-band" className="cv-auto border-t border-line py-16 sm:py-20">
         <div className="container-x flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">

@@ -1,7 +1,13 @@
-# Cloudflare Pages: 301s from the old Wix URLs
-/products-1    /products          301
-/about-1       /about             301
-/events-news   /gallery           301
-/contact-us    /contact           301
-/opal          /products/opal     301
-/agate         /products/agate    301
+# Cloudflare Pages: 301s for retired URLs
+# Old Wix site
+/products-1    /products              301
+/about-1       /about                 301
+/events-news   /about#lab             301
+/contact-us    /contact               301
+/opal          /products/opal         301
+/agate         /products/agate        301
+# Pages merged into the five main pages (PLAN §11)
+/applications          /technology#applications   301
+/applications/:slug    /technology/:slug          301
+/resources             /contact#faq               301
+/gallery               /about#lab                 301

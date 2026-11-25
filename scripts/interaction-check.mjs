@@ -15,11 +15,13 @@ await p.screenshot({ path: `${S}/quote.png` });
 await p.keyboard.press("Escape"); await wait(200);
 const closed = await p.$eval("dialog.quote-dialog", d => !d.open);
 console.log({ dialogOpened: open, invalidFields: errors, focus: focused, escCloses: closed });
-// 2. Explorer keyboard
+// 2. Explorer keyboard (on /products#find, lazy-loaded)
+await p.goto("http://localhost:4321/products#find", { waitUntil: "networkidle0" });
+await p.waitForSelector('[role="slider"]', { timeout: 10000 });
 await p.focus('[role="slider"]'); const before = await p.$eval('[role="slider"]', e => e.getAttribute("aria-valuenow"));
 await p.keyboard.down("Shift"); await p.keyboard.press("ArrowRight"); await p.keyboard.up("Shift"); await p.keyboard.press("ArrowRight"); await wait(100);
 const after = await p.$eval('[role="slider"]', e => e.getAttribute("aria-valuenow"));
-await p.click('button[aria-pressed]:not([aria-pressed="true"])'); await wait(100);
+await p.click('#find button[aria-pressed]:not([aria-pressed="true"])'); await wait(100);
 console.log({ sliderBefore: before, sliderAfterShiftRightPlusRight: after });
 // 3. Product page prefill
 await p.goto("http://localhost:4321/products/agate", { waitUntil: "networkidle0" });

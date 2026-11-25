@@ -32,6 +32,6 @@ export const logos = [
   { name: "logo-ihub-qtf", src: wix("0ed693c77c5044b69a944e5b4fe6fc2b") },
   { name: "logo-dst-nidhi-prayas", src: wix("ac68d4a463c84ab9a7bb225148ab3db5") },
   { name: "logo-kiet", src: wix("001b7f125e3d4e75827e1ddcf860ea94") },
-  { name: "logo-nqm", src: wix("a1c75d02c02644d9b4efa71c00c7ca0b", "jpg") },
-  { name: "logo-bits-biocytih", src: wix("d9a772e192274658aec0e9dbec866d13") },
+  { name: "logo-nqm", src: "assets-src/logos/nqm.png" }, // white removed: scripts/remove-white-bg.mjs … --all
+  { name: "logo-bits-biocytih", src: "assets-src/logos/bits-biocytih.png" }, // white background removed
 ];

@@ -67,14 +67,6 @@ export function MobileNav() {
             </ul>
           </nav>
           <div className="mt-auto flex flex-col gap-3">
-            <button
-              type="button"
-              data-quote=""
-              onClick={() => ref.current?.close()}
-              className="inline-flex h-12 items-center justify-center rounded-md bg-cyan font-medium text-bg"
-            >
-              Request a Quote
-            </button>
             <a href={`mailto:${site.email}`} className="text-center font-mono text-sm text-fg-2">
               {site.email}
             </a>

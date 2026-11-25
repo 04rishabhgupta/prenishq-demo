@@ -4,10 +4,10 @@ import { funders } from "@/data/site";
 /** Pure-CSS marquee; the duplicate track is hidden from assistive tech. Pauses on hover/focus. */
 function Track({ hidden }: { hidden?: boolean }) {
   return (
-    <ul className="flex shrink-0 items-center gap-4 pr-4" aria-hidden={hidden || undefined}>
+    <ul className="flex shrink-0 items-center gap-16 pr-16" aria-hidden={hidden || undefined}>
       {funders.map((f) => (
-        <li key={f.logo} className="logo-plate grid h-20 w-36 shrink-0 place-items-center rounded-md bg-white/[0.92] px-4 py-3">
-          <LogoImg name={f.logo} alt={hidden ? "" : f.name} height={48} className="h-12 w-auto max-w-[112px] object-contain" />
+        <li key={f.logo} className="grid h-24 shrink-0 place-items-center">
+          <LogoImg name={f.logo} alt={hidden ? "" : f.name} height={80} className="h-20 w-auto max-w-[200px] object-contain" />
         </li>
       ))}
     </ul>

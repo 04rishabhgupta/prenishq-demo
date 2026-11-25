@@ -158,7 +158,12 @@ export default function EnquiryForm({ product, source, compact }: { product?: st
       </div>
 
       <div className={cn("flex flex-col gap-3 pt-1", !compact && "sm:col-span-2 sm:flex-row sm:items-center sm:justify-between")}>
-        <p className="text-sm text-fg-2">We use your details only to reply to this enquiry.</p>
+        <p className="text-sm text-fg-2">
+          We use your details only to reply to this enquiry.{" "}
+          <a href="/privacy" className="underline underline-offset-4 hover:text-fg">
+            Privacy notice
+          </a>
+        </p>
         <Button type="submit" disabled={isSubmitting} className="min-w-40">
           {isSubmitting ? "Sending…" : "Send enquiry"}
           {!isSubmitting && <Icon name="arrow-right" />}

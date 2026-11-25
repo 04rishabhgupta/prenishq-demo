@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Logo, LogoSymbol } from "@/components/brand/logo";
-import { QuoteButton } from "@/components/ui/button";
 import { NavLinks } from "@/components/site/nav-links";
 import { MobileNav } from "@/components/site/mobile-nav";
 
@@ -15,10 +14,7 @@ export function SiteHeader() {
         <nav aria-label="Primary" className="hidden lg:block">
           <NavLinks />
         </nav>
-        <div className="flex items-center gap-2">
-          <QuoteButton size="sm" className="hidden sm:inline-flex" />
-          <MobileNav />
-        </div>
+        <MobileNav />
       </div>
     </header>
   );

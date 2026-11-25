@@ -20,17 +20,35 @@ pnpm lint
 
 Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_FORM_ENDPOINT` to enable the enquiry and quote forms. Without it, the form tells visitors to email info@prenishq.com.
 
+## Site structure
+
+Five main pages, each answering one visitor question:
+
+| Page | Answers | Sections |
+|---|---|---|
+| **Home** `/` | Who are you and why should I care? | Hero · backers · key numbers · products · applications · how it works · lab proof · why us · CTA |
+| **Products** `/products` | What can I buy? | All products (filter, compare) · Find your laser · Suggested systems · Downloads; product pages `/products/[slug]` |
+| **Technology** `/technology` | How does it work and what is it for? | How it works (scroll story) · Applications (detail pages `/technology/[slug]`) · Lab results · Roadmap · Glossary |
+| **About** `/about` | Can I trust you? | Story · Mission · What we build · Inside the lab · Education · Backers |
+| **Contact** `/contact` | How do I reach you? | Enquiry · departments · FAQ · map |
+
+`/privacy` is linked from the footer and the enquiry form. Retired URLs (`/applications`, `/resources`, `/gallery`, old Wix paths) 301 to their new homes via `public/_redirects` and `vercel.json`.
+
 ## Editing content
 
 | What | Where |
 |---|---|
 | Products, specs, figures | `data/products.ts`. Copy specs **exactly from the catalogue**. Live-site-only values go in `pending` and are not rendered. |
-| Application fields | `data/applications.ts` |
+| Application fields (Technology → Applications and `/technology/[slug]`) | `data/applications.ts` |
 | Company info, emails, address, funders, mission, "why us" | `data/site.ts` |
-| Gallery | `data/gallery.ts` |
+| Lab gallery (About → Inside the lab) | `data/gallery.ts` |
 | Wavelength colours, atomic lines | `data/wavelengths.ts` |
+| Product benefits, wavelength availability, downloads, "works with", product FAQ, models, publications; suggested systems | `data/product-extras.ts` |
+| Site FAQ, glossary, technology status; testimonials, labs, publications, app notes, events, news, team, milestones | `data/content.ts` |
 
 Every page, the sitemap, JSON-LD and the OG images render from these files. Search for `TODO(client)` to find open content questions.
+
+**Client-supplied lists are hidden while empty.** Testimonials, "used in" labs, publications, application notes, events, news, team, milestones and product models render nothing until their arrays in `data/content.ts` / `data/product-extras.ts` have entries. Fill an array and the section appears; no layout work needed.
 
 ## Images
 

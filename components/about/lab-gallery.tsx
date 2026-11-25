@@ -1,18 +1,11 @@
-import { PageHero } from "@/components/ui/page-hero";
 import { Picture } from "@/components/media/picture";
 import { Lightbox, type LightboxItem } from "@/components/gallery/lightbox";
+import { Section, SectionHeading } from "@/components/ui/section";
 import { gallery } from "@/data/gallery";
 import manifest from "@/data/media.generated.json";
-import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "Gallery: lasers and lab results",
-  description: "Lab imagery from PrenishQ: OPAL and AGATE lasers, NV centre fluorescence, a laser-cooled caesium MOT and saturated absorption spectroscopy.",
-  path: "/gallery",
-});
-
-// Masonry is CSS columns (no JS layout). Virtualisation only needed beyond ~24 items (PLAN §2).
-export default function GalleryPage() {
+/** "Inside the lab" on About (formerly the Gallery page). CSS-columns masonry + native <dialog> lightbox. */
+export function LabGallery({ id }: { id?: string }) {
   const items: LightboxItem[] = gallery.map((g) => {
     const m = manifest[g.image];
     const set = (ext: string) => m.widths.map((w) => `/media/${g.image}-${w}.${ext} ${w}w`).join(", ");
@@ -20,15 +13,9 @@ export default function GalleryPage() {
   });
 
   return (
-    <>
-      <PageHero
-        crumbs={[{ href: "/gallery", label: "Gallery" }]}
-        eyebrow="Gallery"
-        title="From the bench."
-        intro="Instruments, measurements and moments from the lab. Select an image to view it full size."
-      />
-      <section aria-label="Image gallery" className="py-12 sm:py-16">
-        <div className="container-x">
+    <Section id={id} labelledBy="lab-title" className="border-t border-line">
+      <div className="container-x">
+        <SectionHeading id="lab-title" eyebrow="Inside the lab" title="From the bench." intro="Instruments, measurements and moments from the lab. Select an image to view it full size." />
           <ul className="columns-1 gap-4 sm:columns-2 lg:columns-3 [&>li]:mb-4 [&>li]:break-inside-avoid">
             {gallery.map((g, i) => (
               // Off-screen items skip layout, so their lazy images don't compete with the LCP image.
@@ -44,7 +31,6 @@ export default function GalleryPage() {
                       name={g.image}
                       alt={g.alt}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      priority={i === 0}
                       imgClassName="transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                     <span className="absolute right-2 top-2 rounded-sm bg-bg/75 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-fg-2">
@@ -56,10 +42,8 @@ export default function GalleryPage() {
               </li>
             ))}
           </ul>
-          <p className="mt-8 text-sm text-fg-2">More photography from the lab and events is on its way.</p>
-        </div>
-      </section>
+      </div>
       <Lightbox items={items} />
-    </>
+    </Section>
   );
 }

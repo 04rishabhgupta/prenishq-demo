@@ -1,9 +1,13 @@
+import Link from "next/link";
 import { PageHero } from "@/components/ui/page-hero";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { Picture } from "@/components/media/picture";
 import { MissionVision, CtaBand } from "@/components/home/closing-sections";
 import { Icon, type IconName } from "@/components/icons";
 import { funders } from "@/data/site";
+import { milestones } from "@/data/content";
+import { Team } from "@/components/about/team";
+import { LabGallery } from "@/components/about/lab-gallery";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -32,8 +36,7 @@ const FOCUS: { icon: IconName; title: string; body: string }[] = [
   },
 ];
 
-// TODO(client): names, roles, photos and short bios.
-const TEAM = Array.from({ length: 4 }, (_, i) => ({ id: i }));
+
 
 export default function AboutPage() {
   return (
@@ -43,10 +46,19 @@ export default function AboutPage() {
         eyebrow="About PrenishQ"
         title="From an IIT Delhi lab to your optical table."
         intro="PrenishQ is an IIT Delhi spin-off, supported by the National Quantum Mission, that designs, builds and commercialises high-precision diode lasers and quantum sensors."
+        sections={[
+          { id: "story", label: "Our story" },
+          { id: "mission", label: "Mission" },
+          { id: "team", label: "Team" },
+          { id: "build", label: "What we build" },
+          { id: "lab", label: "Inside the lab" },
+          { id: "education", label: "Education" },
+          { id: "backers", label: "Backers" },
+        ]}
       />
 
       {/* Story */}
-      <Section labelledBy="story-title" lazy={false}>
+      <Section id="story" labelledBy="story-title" lazy={false}>
         <div className="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-6">
             <p className="eyebrow mb-4">Our story</p>
@@ -78,8 +90,12 @@ export default function AboutPage() {
         </div>
       </Section>
 
+      <MissionVision id="mission" />
+
+      <Team id="team" />
+
       {/* What we build */}
-      <Section labelledBy="build-title" className="border-t border-line">
+      <Section id="build" labelledBy="build-title" className="border-t border-line">
         <div className="container-x">
           <SectionHeading
             id="build-title"
@@ -99,10 +115,11 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <MissionVision />
+
+      <LabGallery id="lab" />
 
       {/* Skills */}
-      <Section labelledBy="skills-title" className="border-t border-line">
+      <Section id="education" labelledBy="skills-title" className="border-t border-line">
         <div className="container-x grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">
             <p className="eyebrow mb-4">Education and skills</p>
@@ -125,7 +142,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Funders */}
-      <Section labelledBy="funders-title" className="border-t border-line">
+      <Section id="backers" labelledBy="funders-title" className="border-t border-line">
         <div className="container-x">
           <SectionHeading id="funders-title" eyebrow="Incubators and funders" title="Backed by India's quantum ecosystem." />
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -141,20 +158,45 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Team */}
-      <Section labelledBy="team-title" className="border-t border-line">
+      {/* Milestones: rendered only once the client supplies them (data/content.ts). */}
+      {milestones.length > 0 && (
+        <Section labelledBy="milestones-title" className="border-t border-line">
+          <div className="container-x">
+            <SectionHeading id="milestones-title" eyebrow="Milestones" title="How we got here." />
+            <ol className="relative border-l border-line pl-6">
+              {milestones.map((m) => (
+                <li key={m.title} className="reveal relative pb-8 last:pb-0">
+                  <span aria-hidden className="absolute -left-[29px] top-1.5 size-2.5 rounded-full bg-cyan" />
+                  <span className="font-mono text-sm text-cyan">{m.date}</span>
+                  <h3 className="mt-1 text-lg font-medium">{m.title}</h3>
+                  {m.detail && <p className="mt-1 text-fg-2">{m.detail}</p>}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Section>
+      )}
+
+
+      {/* Explore further */}
+      <Section labelledBy="more-title" className="border-t border-line">
         <div className="container-x">
-          <SectionHeading id="team-title" eyebrow="Team" title="The people behind the lasers." intro="Team profiles are coming soon." />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {TEAM.map((t) => (
-              <li key={t.id} className="glow-card flex flex-col gap-4 p-5" aria-label="Team profile coming soon">
-                <div className="dot-grid grid aspect-square place-items-center rounded-md border border-line bg-bg">
-                  <Icon name="users" className="size-10 text-fg-2/50" />
-                </div>
-                <div>
-                  <div className="h-4 w-2/3 rounded bg-white/[0.07]" />
-                  <div className="mt-2 h-3 w-1/2 rounded bg-white/[0.05]" />
-                </div>
+          <h2 id="more-title" className="sr-only">
+            Explore further
+          </h2>
+          <ul className="grid gap-4 md:grid-cols-3">
+            {[
+              { href: "/technology", title: "Our technology", body: "How our lasers work, where they are used, and what we are building next." },
+              { href: "/products", title: "Our products", body: "Five instrument families from 369 to 1600 nm." },
+              { href: "/contact", title: "Work with us", body: "Quotes, service, teaching labs and partnerships." },
+            ].map((c) => (
+              <li key={c.href}>
+                <Link href={c.href} className="glow-card reveal group flex h-full flex-col gap-2 p-6">
+                  <span className="flex items-center justify-between text-lg font-medium">
+                    {c.title} <Icon name="arrow-right" className="size-5 text-fg-2 transition-transform group-hover:translate-x-1 group-hover:text-fg" />
+                  </span>
+                  <span className="text-sm text-fg-2">{c.body}</span>
+                </Link>
               </li>
             ))}
           </ul>

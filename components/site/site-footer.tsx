@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { LogoImg } from "@/components/media/logo-img";
 import { Icon } from "@/components/icons";
-import { funders, nav, site } from "@/data/site";
+import { footerColumns, funders, site } from "@/data/site";
 import { products } from "@/data/products";
 
 export function SiteFooter() {
@@ -10,7 +10,7 @@ export function SiteFooter() {
     <footer className="cv-auto relative border-t border-line bg-surface/60">
       <div className="beam-line" data-observe aria-hidden />
       <div className="container-x grid gap-12 py-14 md:grid-cols-12 md:py-16">
-        <div className="md:col-span-4">
+        <div className="md:col-span-12 lg:col-span-3">
           <Logo className="h-6" />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-fg-2">
             Precision diode lasers for quantum technologies, spectroscopy and research. Designed and built at IIT Delhi.
@@ -21,21 +21,14 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 md:col-span-4">
+        {/* Site index: each main page with its key sections (Toptica/Hamamatsu-style footer). */}
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-8 lg:col-span-6">
           <div>
-            <h2 className="eyebrow mb-4 !text-fg-2">Company</h2>
-            <ul className="space-y-2.5 text-sm">
-              {nav.map((n) => (
-                <li key={n.href}>
-                  <Link href={n.href} className="text-fg-2 transition-colors hover:text-fg">
-                    {n.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="eyebrow mb-4 !text-fg-2">Products</h2>
+            <h2 className="mb-4">
+              <Link href="/products" className="eyebrow !text-fg-2 hover:!text-fg">
+                Products
+              </Link>
+            </h2>
             <ul className="space-y-2.5 text-sm">
               {products.map((p) => (
                 <li key={p.slug}>
@@ -45,19 +38,56 @@ export function SiteFooter() {
                 </li>
               ))}
               <li>
-                <a href="/datasheets/prenishq-catalogue.pdf" className="inline-flex items-center gap-1.5 text-fg-2 hover:text-fg">
+                <Link href="/products#find" className="text-fg-2 transition-colors hover:text-fg">
+                  Find your laser
+                </Link>
+              </li>
+              <li>
+                <a href="/datasheets/prenishq-catalogue.pdf" download className="inline-flex items-center gap-1.5 text-fg-2 hover:text-fg">
                   Catalogue (PDF) <Icon name="download" className="size-3.5" />
                 </a>
               </li>
             </ul>
           </div>
+          {footerColumns.slice(1).map((col) => (
+            <div key={col.title}>
+              <h2 className="mb-4">
+                <Link href={col.href} className="eyebrow !text-fg-2 hover:!text-fg">
+                  {col.title}
+                </Link>
+              </h2>
+              <ul className="space-y-2.5 text-sm">
+                {col.links.map((n) => (
+                  <li key={n.href}>
+                    <Link href={n.href} className="text-fg-2 transition-colors hover:text-fg">
+                      {n.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </nav>
 
-        <address className="not-italic md:col-span-4">
-          <h2 className="eyebrow mb-4 !text-fg-2">Contact</h2>
+        <address className="not-italic md:col-span-4 lg:col-span-3">
+          <h2 className="mb-4">
+            <Link href="/contact" className="eyebrow !text-fg-2 hover:!text-fg">
+              Contact
+            </Link>
+          </h2>
           <a href={`mailto:${site.email}`} className="font-mono text-fg transition-colors hover:text-cyan">
             {site.email}
           </a>
+          <ul className="mt-3 space-y-1 text-sm text-fg-2">
+            {site.departments.map((d) => (
+              <li key={d.email}>
+                {d.name}:{" "}
+                <a href={`mailto:${d.email}`} className="hover:text-fg">
+                  {d.email}
+                </a>
+              </li>
+            ))}
+          </ul>
           <p className="mt-4 text-sm leading-relaxed text-fg-2">
             {site.address.lines.map((l) => (
               <span key={l} className="block">
@@ -86,7 +116,12 @@ export function SiteFooter() {
 
       <div className="border-t border-line">
         <div className="container-x flex flex-col gap-2 py-6 text-xs text-fg-2 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} {site.legalName} All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {site.legalName} All rights reserved. ·{" "}
+            <Link href="/privacy" className="underline-offset-4 hover:text-fg hover:underline">
+              Privacy notice
+            </Link>
+          </p>
           <p>Laser products: observe all safety labels. Avoid eye or skin exposure to direct or scattered radiation.</p>
         </div>
       </div>

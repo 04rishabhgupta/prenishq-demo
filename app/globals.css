@@ -262,7 +262,7 @@
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 48s linear infinite;
+  animation: marquee 34s linear infinite;
 }
 .marquee:hover .marquee-track,
 .marquee:focus-within .marquee-track {
@@ -324,17 +324,6 @@
   opacity: 1;
   transform: none;
   transition: none;
-}
-
-/* Funder logos: greyscale → colour on hover (instant swap, no filter animation). */
-.logo-plate img {
-  filter: grayscale(1);
-  opacity: 0.75;
-}
-.logo-plate:hover img,
-.marquee:focus-visible .logo-plate img {
-  filter: none;
-  opacity: 1;
 }
 
 /* Explorer beam cursor: small element, so a drop-shadow glow is cheap. */

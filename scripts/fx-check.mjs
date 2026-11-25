@@ -26,12 +26,16 @@ await wait(4300);
 await p.screenshot({ path: `${out}/fx-hero2.png`, captureBeyondViewport: false });
 // frame pacing over 3 s on the hero
 const fps = await p.evaluate(() => new Promise((res) => { const t = []; let s = performance.now(); const f = (n) => { t.push(n); if (n - s < 3000) requestAnimationFrame(f); else { const d = t.slice(1).map((x, i) => x - t[i]).sort((a, b) => a - b); res({ frames: t.length, median: d[d.length >> 1].toFixed(1), p95: d[Math.floor(d.length * 0.95)].toFixed(1) }); } }; requestAnimationFrame(f); }));
-// story
+// story (lives on /technology since the five-page restructure)
+await p.goto("http://localhost:4321/technology", { waitUntil: "networkidle0" });
+await wait(2500);
 await p.evaluate(() => document.querySelector('[data-step="lock"]').scrollIntoView({ block: "center" }));
 await wait(1200);
 const story = await p.evaluate(() => ({ live: document.querySelector("[data-story]")?.hasAttribute("data-story-live"), active: document.querySelector("[data-scene][data-active]")?.getAttribute("data-scene") }));
 await p.screenshot({ path: `${out}/fx-story.png`, captureBeyondViewport: false });
 // bento hover
+await p.goto("http://localhost:4321/", { waitUntil: "networkidle0" });
+await wait(1500);
 await p.evaluate(() => document.querySelector("#products-title").scrollIntoView({ block: "start" }));
 await wait(800);
 const card = await p.$(".glow-card [data-tilt]");

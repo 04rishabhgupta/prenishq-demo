@@ -17,6 +17,8 @@ type Tile = {
   /** Plots are light-background figures: shown on a "paper" mount, never recoloured. */
   paper?: boolean;
   className?: string;
+  /** Only on the full (Technology) variant. */
+  full?: boolean;
 };
 
 // All captions from the catalogue (pp. 2–4, 7).
@@ -55,11 +57,24 @@ const TILES: Tile[] = [
     credit: "Image courtesy of Prof. Sudipta Maiti, BITS Pilani, Hyderabad Campus.",
     product: "opal",
   },
+  {
+    image: "dbrpro-cs-sas",
+    alt: "Saturated absorption spectrum of caesium-133 showing the F = 4 and F = 3 manifolds and crossover resonances.",
+    title: "Doppler-free caesium spectroscopy",
+    metric: "¹³³Cs D2",
+    caption: "Saturated absorption spectrum recorded at IIT Delhi, resolving the F = 4 and F = 3 manifolds and crossover resonances.",
+    product: "dbr-pro",
+    paper: true,
+    full: true,
+    className: "md:col-span-2",
+  },
 ];
 
-export function LabProof() {
+/** Home shows the four highlights; Technology (`full`) adds the remaining lab results. */
+export function LabProof({ full = false, id }: { full?: boolean; id?: string }) {
+  const tiles = TILES.filter((t) => full || !t.full);
   return (
-    <Section labelledBy="proof-title" className="border-y border-line bg-surface/40">
+    <Section id={id} labelledBy="proof-title" className="border-y border-line bg-surface/40">
       <div aria-hidden className="hairline-grid absolute inset-0 opacity-40 [mask-image:linear-gradient(to_bottom,#000,transparent_70%)]" />
       <div className="container-x relative">
         <SectionHeading
@@ -69,16 +84,16 @@ export function LabProof() {
           intro="Results recorded with PrenishQ lasers at IIT Delhi, BITS Pilani and our own lab."
         />
         <div className="grid gap-4 md:grid-cols-2">
-          {TILES.map((t, i) => {
+          {tiles.map((t, i) => {
             const p = productBySlug[t.product];
             return (
               <figure
                 key={t.image}
-                className="glow-card bench-frame reveal flex flex-col overflow-hidden"
+                className={cn("glow-card bench-frame reveal flex flex-col overflow-hidden", t.className)}
                 style={{ ...accentVars(p.accent), ["--i" as string]: i % 2 }}
               >
                 {/* Scientific figures are never cropped: scale bars and axes must stay visible. */}
-                <div className={cn("relative aspect-[16/10] overflow-hidden border-b border-line", t.paper ? "bg-[#f7f8fa]" : "bg-black")}>
+                <div className={cn("relative overflow-hidden border-b border-line", t.className ? "aspect-[21/8]" : "aspect-[16/10]", t.paper ? "bg-[#f7f8fa]" : "bg-black")}>
                   <Picture
                     name={t.image}
                     alt={t.alt}
@@ -105,6 +120,11 @@ export function LabProof() {
             );
           })}
         </div>
+        {!full && (
+          <Link href="/technology#results" className="mt-8 inline-flex items-center gap-1.5 text-sm text-cyan hover:underline">
+            All lab results and how they were measured →
+          </Link>
+        )}
       </div>
     </Section>
   );

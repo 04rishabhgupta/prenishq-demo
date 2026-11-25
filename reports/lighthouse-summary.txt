@@ -1,36 +1,22 @@
-/                      perf 95  a11y 100  bp 100  seo 100 | FCP 1.05s  LCP 2.91s  TBT 4ms  CLS 0.000  SI 1.05s
-  LCP element: 
+/                      perf 95  a11y 100  bp 100  seo 100 | FCP 1.05s  LCP 2.90s  TBT 19ms  CLS 0.000  SI 1.05s
   audits < 0.9: largest-contentful-paint, unused-javascript, cache-insight, image-delivery-insight, legacy-javascript-insight, network-dependency-tree-insight
-/products              perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.61s  TBT 2ms  CLS 0.000  SI 0.90s
-  LCP element: 
+/products              perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.68s  TBT 2ms  CLS 0.000  SI 0.90s
   audits < 0.9: largest-contentful-paint, unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/products/opal         perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.61s  TBT 4ms  CLS 0.000  SI 0.90s
-  LCP element: 
+/technology            perf 97  a11y 100  bp 100  seo 100 | FCP 1.05s  LCP 2.68s  TBT 2ms  CLS 0.000  SI 1.05s
   audits < 0.9: largest-contentful-paint, unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/products/agate        perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 2ms  CLS 0.000  SI 0.90s
-  LCP element: 
-  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/products/dbr          perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 4ms  CLS 0.000  SI 0.90s
-  LCP element: 
-  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/products/dbr-pro      perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.31s  TBT 3ms  CLS 0.000  SI 0.90s
-  LCP element: 
-  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/products/ta           perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 4ms  CLS 0.000  SI 0.90s
-  LCP element: 
-  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/applications          perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 4ms  CLS 0.000  SI 0.90s
-  LCP element: 
-  audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/about                 perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.53s  TBT 3ms  CLS 0.000  SI 0.90s
-  LCP element: 
+/about                 perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.61s  TBT 2ms  CLS 0.000  SI 0.90s
   audits < 0.9: largest-contentful-paint, unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/gallery               perf 95  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.98s  TBT 2ms  CLS 0.000  SI 0.90s
-  LCP element: 
-  audits < 0.9: largest-contentful-paint, unused-javascript, cache-insight, image-delivery-insight, legacy-javascript-insight, network-dependency-tree-insight
 /contact               perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 2ms  CLS 0.000  SI 0.90s
-  LCP element: 
   audits < 0.9: unused-javascript, cache-insight, legacy-javascript-insight, network-dependency-tree-insight
-/404                   perf 96  a11y 100  bp 100  seo 69 | FCP 1.20s  LCP 2.68s  TBT 1ms  CLS 0.005  SI 1.20s
-  LCP element: 
-  audits < 0.9: largest-contentful-paint, unused-javascript, is-crawlable, cache-insight, image-delivery-insight, legacy-javascript-insight, network-dependency-tree-insight
+/products/opal         perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.61s  TBT 6ms  CLS 0.000  SI 0.90s
+/products/agate        perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 6ms  CLS 0.000  SI 0.90s
+/products/dbr          perf 98  a11y 100  bp 100  seo 100 | FCP 1.36s  LCP 2.31s  TBT 34ms  CLS 0.000  SI 1.36s
+/products/dbr-pro      perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 6ms  CLS 0.000  SI 0.90s
+/products/ta           perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 6ms  CLS 0.000  SI 0.90s
+/technology/neutral-atoms perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 3ms  CLS 0.000  SI 0.90s
+/technology/trapped-ions perf 98  a11y 100  bp 100  seo 100 | FCP 1.51s  LCP 2.31s  TBT 52ms  CLS 0.000  SI 1.51s
+/technology/nv-centres perf 97  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.53s  TBT 2ms  CLS 0.000  SI 0.90s
+/technology/metrology-clocks perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.31s  TBT 3ms  CLS 0.000  SI 0.90s
+/technology/laser-spectroscopy perf 98  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.46s  TBT 3ms  CLS 0.000  SI 0.90s
+/technology/quantum-memory perf 97  a11y 100  bp 100  seo 100 | FCP 1.51s  LCP 2.46s  TBT 11ms  CLS 0.000  SI 1.51s
+/privacy               perf 96  a11y 100  bp 100  seo 100 | FCP 0.90s  LCP 2.75s  TBT 1ms  CLS 0.000  SI 0.90s

@@ -8,6 +8,9 @@ type Step = {
   key: SceneKey;
   verb: string;
   title: string;
+  /** Textbook explanation of the physics (shown first). */
+  explain: string;
+  /** What the PrenishQ instrument does, from the catalogue. */
   body: string;
   specs: string[];
   products: ProductSlug[];
@@ -20,6 +23,8 @@ const STEPS: Step[] = [
     key: "emit",
     verb: "Emit",
     title: "A diode turns current into coherent light.",
+    explain:
+      "In a semiconductor diode laser, current through a p–n junction produces photons, and the polished facets of the chip form a short optical cavity that makes it lase.",
     body: "OPAL packages the semiconductor laser into a compact, fibre-coupled source at five wavelengths from 405 to 980 nm, with under 1 % power drift over 10+ hours.",
     specs: ["< 0.1 pm", "≤ 100 mW", "5 wavelengths"],
     products: ["opal", "dbr"],
@@ -29,7 +34,9 @@ const STEPS: Step[] = [
     key: "narrow",
     verb: "Narrow",
     title: "An external cavity picks a single frequency.",
-    body: "Feeding one frequency back into the diode collapses its linewidth. AGATE reaches below 100 kHz and scans 5 GHz without a mode hop, from 369 to 1600 nm.",
+    explain:
+      "Atoms respond only to light within a very narrow frequency band. An external cavity feeds a single frequency back into the diode, narrowing its linewidth and letting it tune smoothly.",
+    body: "AGATE reaches below 100 kHz and scans 5 GHz without a mode hop, anywhere from 369 to 1600 nm.",
     specs: ["< 100 kHz", "5 GHz MHF", "369–1600 nm"],
     products: ["agate"],
     accent: 520,
@@ -38,6 +45,8 @@ const STEPS: Step[] = [
     key: "lock",
     verb: "Lock",
     title: "Atoms become the reference.",
+    explain:
+      "To hold a frequency for hours, the laser is referenced to the atoms themselves: a vapour cell provides narrow, Doppler-free features that feedback can lock to.",
     body: "Saturated-absorption spectroscopy reveals Doppler-free atomic lines, and lock-in detection holds the laser on them. DBR PRO integrates both at the Rb and Cs D2 lines.",
     specs: ["780 nm Rb", "852 nm Cs", "< 500 kHz"],
     products: ["dbr-pro"],
@@ -47,7 +56,9 @@ const STEPS: Step[] = [
     key: "amplify",
     verb: "Amplify",
     title: "Clean light, at watt level.",
-    body: "A tapered amplifier boosts a narrow seed to more than 2 W, fibre-coupled, while keeping its polarisation: enough power for large cooling beams.",
+    explain:
+      "Cooling beams and large traps need far more power than a narrow-linewidth seed provides. A tapered amplifier's gain region widens along its length, boosting the seed to watt level.",
+    body: "TA delivers more than 2 W saturated, fibre-coupled, and keeps the seed's polarisation: enough power for large cooling beams.",
     specs: ["> 2 W", "632–1590 nm", "Pol. maintained"],
     products: ["ta"],
     accent: 633,
@@ -56,7 +67,9 @@ const STEPS: Step[] = [
     key: "cool",
     verb: "Cool",
     title: "Six beams stop atoms in their tracks.",
-    body: "Intersecting laser beams slow a vapour to microkelvin temperatures. At IIT Delhi, caesium atoms were laser-cooled to 15 µK: the starting point for quantum computing, sensing and clocks.",
+    explain:
+      "Intersecting laser beams and a magnetic field gradient slow a vapour of atoms to microkelvin temperatures in a magneto-optical trap.",
+    body: "At IIT Delhi, caesium atoms were laser-cooled to 15 µK with this chain: the starting point for neutral-atom quantum computers, atomic clocks and quantum sensors.",
     specs: ["15 µK", "Cs MOT", "IIT Delhi"],
     products: ["agate", "ta"],
     accent: 405,
@@ -71,7 +84,8 @@ function StepText({ step, index }: { step: Step; index: number }) {
         {String(index + 1).padStart(2, "0")} · {step.verb}
       </p>
       <h3 className="mt-3 text-2xl font-medium leading-snug sm:text-3xl">{step.title}</h3>
-      <p className="mt-4 leading-relaxed text-fg-2">{step.body}</p>
+      <p className="mt-4 leading-relaxed text-fg-2">{step.explain}</p>
+      <p className="mt-3 leading-relaxed text-fg">{step.body}</p>
       <ul className="mt-5 flex flex-wrap gap-2">
         {step.specs.map((s) => (
           <li key={s} className="rounded-full border border-line-strong px-3 py-1 font-mono text-xs text-fg">
@@ -105,9 +119,9 @@ function ScenePanel({ step }: { step: Step }) {
   );
 }
 
-export function Story() {
+export function Story({ id, bordered = true }: { id?: string; bordered?: boolean }) {
   return (
-    <section aria-labelledby="story-title" data-story data-loop className="relative border-t border-line py-20 sm:py-28">
+    <section id={id} aria-labelledby="story-title" data-story data-loop className={`relative py-20 sm:py-28 ${bordered ? "border-t border-line" : ""}`}>
       <div className="container-x">
         <div className="mb-14 max-w-2xl sm:mb-20">
           <p className="eyebrow mb-4">From diode to quantum sensor</p>

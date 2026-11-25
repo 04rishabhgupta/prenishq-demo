@@ -14,7 +14,7 @@
     },
     {
       "source": "/events-news",
-      "destination": "/gallery",
+      "destination": "/about#lab",
       "permanent": true
     },
     {
@@ -30,6 +30,26 @@
     {
       "source": "/agate",
       "destination": "/products/agate",
+      "permanent": true
+    },
+    {
+      "source": "/applications",
+      "destination": "/technology#applications",
+      "permanent": true
+    },
+    {
+      "source": "/applications/:slug",
+      "destination": "/technology/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/resources",
+      "destination": "/contact#faq",
+      "permanent": true
+    },
+    {
+      "source": "/gallery",
+      "destination": "/about#lab",
       "permanent": true
     }
   ],

@@ -27,13 +27,47 @@ export const site = {
   socials: [] as { label: string; href: string }[], // TODO(client): LinkedIn etc.
 } as const;
 
+// Five main pages (PLAN §11). Header and mobile menu.
 export const nav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "/applications", label: "Applications" },
+  { href: "/technology", label: "Technology" },
   { href: "/about", label: "About" },
-  { href: "/gallery", label: "Gallery" },
   { href: "/contact", label: "Contact" },
+] as const;
+
+// Footer index: each main page with its key sections.
+export const footerColumns = [
+  {
+    title: "Products",
+    href: "/products",
+    links: [
+      { href: "/products#catalogue", label: "All products" },
+      { href: "/products#find", label: "Find your laser" },
+      { href: "/products#systems", label: "Suggested systems" },
+      { href: "/products#downloads", label: "Downloads" },
+    ],
+  },
+  {
+    title: "Technology",
+    href: "/technology",
+    links: [
+      { href: "/technology#how", label: "How it works" },
+      { href: "/technology#applications", label: "Applications" },
+      { href: "/technology#results", label: "Lab results" },
+      { href: "/technology#glossary", label: "Glossary" },
+    ],
+  },
+  {
+    title: "Company",
+    href: "/about",
+    links: [
+      { href: "/about#story", label: "Our story" },
+      { href: "/about#lab", label: "Inside the lab" },
+      { href: "/about#backers", label: "Backers" },
+      { href: "/contact#faq", label: "FAQ" },
+    ],
+  },
 ] as const;
 
 export type Funder = { name: string; logo: MediaName; w: number; h: number };

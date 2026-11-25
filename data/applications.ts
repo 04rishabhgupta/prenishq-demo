@@ -1,5 +1,6 @@
 import type { ProductSlug } from "@/data/products";
 import type { PaletteNm } from "@/data/wavelengths";
+import type { MediaName } from "@/lib/image-loader";
 
 export type Schematic = "atoms" | "ions" | "nv" | "clock" | "spectroscopy" | "memory";
 
@@ -14,6 +15,8 @@ export type Application = {
   products: { slug: ProductSlug; why: string }[];
   schematic: Schematic;
   accent: PaletteNm;
+  /** Lab figures (from product figures) that genuinely demonstrate this field. */
+  results: MediaName[];
 };
 
 export const applications: Application[] = [
@@ -33,6 +36,7 @@ export const applications: Application[] = [
     ],
     schematic: "atoms",
     accent: 785,
+    results: ["cs-mot-fluorescence", "agate-linewidth-plot"],
   },
   {
     slug: "trapped-ions",
@@ -49,6 +53,7 @@ export const applications: Application[] = [
     ],
     schematic: "ions",
     accent: 405,
+    results: ["agate-linewidth-plot"],
   },
   {
     slug: "nv-centres",
@@ -64,6 +69,7 @@ export const applications: Application[] = [
     ],
     schematic: "nv",
     accent: 520,
+    results: ["nv-diamond-fluorescence"],
   },
   {
     slug: "metrology-clocks",
@@ -81,6 +87,7 @@ export const applications: Application[] = [
     ],
     schematic: "clock",
     accent: 633,
+    results: ["dbrpro-cs-sas"],
   },
   {
     slug: "laser-spectroscopy",
@@ -99,6 +106,7 @@ export const applications: Application[] = [
     ],
     schematic: "spectroscopy",
     accent: 633,
+    results: ["dbrpro-cs-sas", "agate-linewidth-plot"],
   },
   {
     slug: "quantum-memory",
@@ -116,5 +124,6 @@ export const applications: Application[] = [
     ],
     schematic: "memory",
     accent: 785,
+    results: ["cs-mot-fluorescence"],
   },
 ];
