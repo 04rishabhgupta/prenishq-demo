@@ -10,17 +10,17 @@ export function WhyPrenishQ() {
     <Section labelledBy="why-title" className="border-t border-line">
       <div className="container-x">
         <SectionHeading id="why-title" eyebrow="Why PrenishQ" title="Built in India, for the optical table." align="center" />
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {whyUs.map((w, i) => (
-            <li key={w.title} className="glow-card reveal flex flex-col p-6" style={{ ["--i" as string]: i }}>
-              <span className="mb-6 grid size-11 place-items-center rounded-md border border-line-strong text-cyan">
-                <Icon name={w.icon as IconName} className="size-[22px]" />
+            <li key={w.title} className="glow-card reveal flex flex-col p-4 sm:p-6" style={{ ["--i" as string]: i }}>
+              <span className="mb-4 grid size-9 place-items-center rounded-md border border-line-strong text-cyan sm:mb-6 sm:size-11">
+                <Icon name={w.icon as IconName} className="size-[18px] sm:size-[22px]" />
               </span>
-              <h3 className="text-lg font-medium">{w.title}</h3>
-              <ul className="mt-3 space-y-2 text-sm text-fg-2">
+              <h3 className="text-[0.95rem] font-medium leading-snug sm:text-lg sm:leading-[calc(1.75/1.125)]">{w.title}</h3>
+              <ul className="mt-2.5 space-y-1.5 text-[0.8rem] leading-snug text-fg-2 sm:mt-3 sm:space-y-2 sm:text-sm sm:leading-[calc(1.25/0.875)]">
                 {w.points.map((p) => (
                   <li key={p} className="flex gap-2">
-                    <span className="mt-2 size-1 shrink-0 rounded-full bg-cyan" aria-hidden />
+                    <span className="mt-[0.45rem] size-1 shrink-0 rounded-full bg-cyan sm:mt-2" aria-hidden />
                     {p}
                   </li>
                 ))}

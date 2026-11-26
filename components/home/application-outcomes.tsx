@@ -31,26 +31,26 @@ export function ApplicationOutcomes() {
             All applications <Icon name="arrow-right" />
           </ButtonLink>
         </SectionHeading>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {applications.map((a, i) => (
-            <li key={a.slug} className="glow-card bench-frame reveal group relative flex flex-col p-6" style={{ ...accentVars(a.accent), ["--i" as string]: i % 3 }}>
+            <li key={a.slug} className="glow-card bench-frame reveal group relative flex flex-col p-4 pr-12 sm:p-6" style={{ ...accentVars(a.accent), ["--i" as string]: i % 3 }}>
               <p className="font-mono text-[11px] uppercase tracking-[0.12em]" style={{ color: "var(--accent-text)" }}>
                 {a.title}
               </p>
-              <h3 className="mt-3 text-xl font-medium leading-snug">
+              <h3 className="mt-2 text-[1.05rem] font-medium leading-snug sm:mt-3 sm:text-xl">
                 <Link href={`/technology/${a.slug}`} className="after:absolute after:inset-0">
                   {OUTCOME[a.slug]}
                 </Link>
               </h3>
-              <div className="mt-auto flex items-end justify-between gap-3 pt-6">
-                <ul className="flex flex-wrap gap-1.5" aria-label="Instruments">
+              <div className="mt-auto flex items-end justify-between gap-3 sm:pt-6">
+                <ul className="hidden flex-wrap gap-1.5 sm:flex" aria-label="Instruments">
                   {a.products.map((x) => (
                     <li key={x.slug} className="rounded-full border border-line-strong px-2.5 py-1 font-mono text-[11px] text-fg-2">
                       {productBySlug[x.slug].name}
                     </li>
                   ))}
                 </ul>
-                <Icon name="arrow-up-right" className="size-5 shrink-0 text-fg-2 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-fg" />
+                <Icon name="arrow-up-right" className="size-5 shrink-0 text-fg-2 max-sm:absolute max-sm:right-4 max-sm:top-1/2 max-sm:-translate-y-1/2 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-fg" />
               </div>
             </li>
           ))}

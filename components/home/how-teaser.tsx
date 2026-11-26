@@ -17,7 +17,7 @@ export function HowTeaser() {
   return (
     <Section labelledBy="how-title" className="border-t border-line">
       <div className="container-x">
-        <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div className="mb-8 flex sm:mb-10 flex-col justify-between gap-4 md:flex-row md:items-end">
           <div className="max-w-2xl">
             <p className="eyebrow reveal mb-4">How it works</p>
             <h2 id="how-title" className="reveal text-3xl font-medium leading-tight sm:text-[2.6rem]" style={{ ["--i" as string]: 1 }}>
@@ -32,13 +32,16 @@ export function HowTeaser() {
           {STEPS.map((s, i) => {
             const color = PALETTE[s.accent].text === "#F4F7FB" ? PALETTE[s.accent].color : PALETTE[s.accent].text;
             return (
-              <li key={s.verb} className="reveal relative flex flex-col gap-3 bg-bg p-5" style={{ ["--i" as string]: i }}>
+              <li key={s.verb} className="reveal relative flex flex-col gap-1.5 bg-bg px-4 py-3.5 sm:gap-3 sm:p-5" style={{ ["--i" as string]: i }}>
                 <span aria-hidden className="absolute inset-x-0 top-0 h-0.5" style={{ background: PALETTE[s.accent].color }} />
-                <span className="font-mono text-xs uppercase tracking-[0.14em]" style={{ color }}>
-                  {String(i + 1).padStart(2, "0")} · {s.verb}
+                <span className="flex items-baseline justify-between gap-3">
+                  <span className="font-mono text-xs uppercase tracking-[0.14em]" style={{ color }}>
+                    {String(i + 1).padStart(2, "0")} · {s.verb}
+                  </span>
+                  <span className="font-mono text-xs text-fg-2 sm:hidden">{productBySlug[s.product].name}</span>
                 </span>
                 <span className="leading-snug">{s.line}</span>
-                <span className="mt-auto font-mono text-xs text-fg-2">{productBySlug[s.product].name}</span>
+                <span className="mt-auto hidden font-mono text-xs text-fg-2 sm:block">{productBySlug[s.product].name}</span>
               </li>
             );
           })}

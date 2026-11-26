@@ -7,6 +7,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Icon } from "@/components/icons";
 import { accentVars } from "@/lib/accent";
 import { cn } from "@/lib/cn";
+import { SwipeRow } from "@/components/ui/swipe-row";
 
 // 12-col bento: the two products with real renders lead; the rest are spec-forward.
 const LAYOUT: Record<Product["slug"], string> = {
@@ -26,11 +27,11 @@ function BentoCard({ product, index }: { product: Product; index: number }) {
     >
       {big ? (
         <div data-tilt className="relative aspect-[16/9] overflow-hidden border-b border-line">
-          <ProductVisual product={product} sizes="(min-width: 1024px) 58vw, 100vw" className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+          <ProductVisual product={product} sizes="(min-width: 1024px) 58vw, (min-width: 768px) 50vw, 86vw" className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
         </div>
       ) : (
-        <div className="relative h-28 overflow-hidden border-b border-line">
+        <div className="relative aspect-[16/9] overflow-hidden border-b border-line md:aspect-auto md:h-28">
           <div className="dot-grid absolute inset-0 opacity-60" />
           <div className="glow-spot absolute -right-10 -top-16 size-56" />
           <div className="absolute inset-x-5 bottom-5">
@@ -85,11 +86,11 @@ export function ProductBento() {
             Compare all products <Icon name="columns" />
           </ButtonLink>
         </SectionHeading>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 [&>*]:relative">
+        <SwipeRow count={products.length} label="Products" className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 [&>*]:relative">
           {products.map((p, i) => (
             <BentoCard key={p.slug} product={p} index={i} />
           ))}
-        </div>
+        </SwipeRow>
       </div>
     </Section>
   );

@@ -17,7 +17,7 @@ export function Section({
   lazy?: boolean;
 }) {
   return (
-    <section id={id} aria-labelledby={labelledBy} className={cn("relative py-20 sm:py-28", lazy && "cv-auto", className)}>
+    <section id={id} aria-labelledby={labelledBy} className={cn("relative py-14 sm:py-28", lazy && "cv-auto", className)}>
       {children}
     </section>
   );
@@ -43,7 +43,7 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mb-12 flex flex-col gap-4 sm:mb-16",
+        "mb-8 flex flex-col gap-4 sm:mb-16",
         align === "center" && "items-center text-center",
         children && "md:flex-row md:items-end md:justify-between",
         className,
@@ -59,7 +59,7 @@ export function SectionHeading({
           </h2>
         )}
         {intro && (
-          <p className="reveal mt-4 text-lg leading-relaxed text-fg-2" style={{ ["--i" as string]: 2 }}>
+          <p className="reveal mt-3 text-base leading-relaxed text-fg-2 sm:mt-4 sm:text-lg" style={{ ["--i" as string]: 2 }}>
             {intro}
           </p>
         )}

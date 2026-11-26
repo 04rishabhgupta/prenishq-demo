@@ -720,3 +720,46 @@
 [data-motion="reduced"] .footer-cells i:nth-child(3n) {
   opacity: 0.35;
 }
+
+/* ── Swipe row (mobile carousels on Home). Native scroll-snap; desktop layout untouched. ── */
+@media (width < 48rem) {
+  .swipe-row {
+    display: flex;
+    gap: 12px;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .swipe-row::-webkit-scrollbar {
+    display: none;
+  }
+  .swipe-row > * {
+    flex: 0 0 min(86%, 24rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  /* Cards in a row are always shown, so the peeking next card hints that the row swipes. */
+  .js .swipe-row > .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+.swipe-dot span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.28);
+  transition:
+    transform 0.3s var(--ease-out-expo),
+    background-color 0.3s;
+}
+.swipe-dot[aria-current] span {
+  background: var(--cyan);
+  transform: scale(1.5);
+}
