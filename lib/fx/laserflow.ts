@@ -7,6 +7,8 @@
  *  - render scale capped at 1× CSS px and adapted down from measured frame times;
  *    gives up (calls onFail) if the GPU can't hold ~40 fps even at the lowest tier
  *  - stops when off-screen / tab hidden; smooth colour transitions via setColor()
+ *  - frame rate capped near 100 fps (120 Hz+ screens draw every other vsync)
+ *  - pointer lens only with a fine pointer (`interactive`), so touch scrolling never bends the beam
  *  - reveal-image feature removed
  */
 import { FRAGMENT, TINTS, VERTEX } from "./laserflow-shader";
@@ -23,6 +25,8 @@ type Options = {
   dots?: number;
   pulse?: number;
   speed?: number;
+  /** Pointer lens effect (mouse only). Default true. */
+  interactive?: boolean;
   onReady?: () => void;
   onFail?: () => void;
 };
@@ -38,6 +42,7 @@ const TIERS = [
 ];
 const SLOW_MS = 21; // p90 frame interval above this (< ~48 fps) → step down a tier
 const WINDOW = 30; // frames per decision
+const MIN_FRAME_MS = 9.5; // ~100 fps cap: 60/90 Hz draw every vsync, 120/144 Hz every other one
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const easeOut = (x: number) => 1 - Math.pow(1 - clamp(x, 0, 1), 3);
@@ -291,6 +296,10 @@ export function mountLaserFlow(container: HTMLElement, surfaceEl: HTMLElement, o
       container.appendChild(canvas);
       opts.onReady?.();
     }
+    if (last && now - last < MIN_FRAME_MS) {
+      raf = requestAnimationFrame(frame);
+      return;
+    }
     const interval = last ? now - last : 16.7;
     const dt = Math.min(0.05, interval / 1000);
     last = now;
@@ -347,7 +356,8 @@ export function mountLaserFlow(container: HTMLElement, surfaceEl: HTMLElement, o
     if (visible) wake();
   });
   io.observe(container);
-  window.addEventListener("pointermove", onPointer, { passive: true });
+  const interactive = opts.interactive !== false;
+  if (interactive) window.addEventListener("pointermove", onPointer, { passive: true });
   document.addEventListener("visibilitychange", onVisibility);
   resize();
   wake();

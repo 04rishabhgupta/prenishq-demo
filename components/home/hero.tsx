@@ -26,7 +26,7 @@ export function Hero() {
       <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden">
         <div className="spotlight" />
       </div>
-      {/* WebGL beam mounts here (full hero, behind text, above background). */}
+      {/* WebGL beam mounts here on desktop (full hero, behind text, above background). */}
       <div aria-hidden data-laserflow className="pointer-events-none absolute inset-0 z-0" />
 
       <div className="container-x relative grid gap-10 pb-16 pt-14 sm:pt-20 lg:min-h-[min(820px,calc(100svh-var(--header-h)))] lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-20">
@@ -65,8 +65,15 @@ export function Hero() {
           </dl>
         </div>
 
-        {/* The surface the beam lands on. Extra top padding on mobile gives the CSS beam room. */}
+        {/* The surface the beam lands on. Extra top padding on mobile gives the beam room. */}
         <div className="relative pt-24 lg:col-span-6 lg:pt-40">
+          {/* Mobile WebGL stage: only the gap above the card and the card itself (small canvas, never
+              behind the text), full-bleed, fading in at the top so the beam emerges from the dark. */}
+          <div
+            aria-hidden
+            data-laserflow-mobile
+            className="pointer-events-none absolute -inset-x-4 -top-12 bottom-0 z-0 [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_88%,transparent)] lg:hidden"
+          />
           <div className="relative mx-auto max-w-[480px] lg:mr-0">
             <div aria-hidden className="beam-impact" />
             <div aria-hidden className="beam-fallback anim-loop" />

@@ -13,7 +13,7 @@ export function init(): Cleanup {
 
   cleanups.push(pauseOffscreenLoops());
   if (finePointer) cleanups.push(pointerEffects());
-  cleanups.push(...lasers(desktop && finePointer));
+  cleanups.push(...lasers(desktop, finePointer));
   if (desktop) cleanups.push(story());
 
   return () => cleanups.forEach((c) => c());
@@ -108,11 +108,12 @@ function pointerEffects(): Cleanup {
 }
 
 /**
- * [data-laser-scope]: on capable desktops, mounts the WebGL LaserFlow beam (one per page)
- * onto its [data-laser-surface]. With [data-wl-cycle] it also cycles OPAL's five wavelengths
+ * [data-laser-scope]: on capable devices, mounts the WebGL LaserFlow beam (one per page)
+ * onto its [data-laser-surface]. Desktop renders across the whole hero ([data-laserflow]);
+ * phones and tablets use a small stage around the card ([data-laserflow-mobile]) when present. With [data-wl-cycle] it also cycles OPAL's five wavelengths
  * (label scramble = ReactBits DecryptedText); otherwise it uses [data-laser-color].
  */
-function lasers(webgl: boolean): Cleanup[] {
+function lasers(desktop: boolean, finePointer: boolean): Cleanup[] {
   const hero = document.querySelector<HTMLElement>("[data-laser-scope]");
   if (!hero) return [];
   const cycling = hero.hasAttribute("data-wl-cycle");
@@ -155,15 +156,16 @@ function lasers(webgl: boolean): Cleanup[] {
     });
   }
 
-  const stage = hero.querySelector<HTMLElement>("[data-laserflow]");
+  const stage = (!desktop && hero.querySelector<HTMLElement>("[data-laserflow-mobile]")) || hero.querySelector<HTMLElement>("[data-laserflow]");
   const surface = hero.querySelector<HTMLElement>("[data-laser-surface]");
   const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
-  if (webgl && stage && surface && deviceMemory >= 4) {
+  if (stage && surface && deviceMemory >= 4) {
     let alive = true;
     import("./laserflow").then(({ mountLaserFlow }) => {
       if (!alive) return;
       laser = mountLaserFlow(stage, surface, {
         color: fixedColor ?? PALETTE[PRESETS[i]].color,
+        interactive: finePointer,
         onReady: () => hero.setAttribute("data-webgl", "on"),
         onFail: () => {
           hero.removeAttribute("data-webgl");
