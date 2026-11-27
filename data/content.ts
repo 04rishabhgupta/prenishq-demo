@@ -106,13 +106,18 @@ export type TeamMember = {
 export const team: TeamMember[] = [
   {
     name: "Dr Suranita Kanjilal",
-    role: "Co-founder and CEO",
+    role: "Co-founder and Director",
+    // Source: client-supplied LinkedIn summary.
+    bio: "Computational scientist and quantum technology entrepreneur. Former postdoctoral researcher at Johannes Kepler University Linz (2018–2021), modelling granular and multiphase flows, and at the Heidelberg Institute for Theoretical Studies, applying high-performance computing.",
     photo: "team-suranita-kanjilal",
     linkedin: "https://www.linkedin.com/in/suranita281kanjilal83/",
   },
   {
     name: "Dr Bodhaditya Santra",
     role: "Co-founder and CTO",
+    // Source: IIT Delhi / IRINS faculty profile and his publications (LinkedIn blocks automated
+    // access). TODO(client): confirm wording.
+    bio: "Assistant Professor of Physics at IIT Delhi since 2019. His research covers cold-atom quantum experiments, including compact external cavity diode lasers and laser frequency stabilisation for atom trapping.",
     photo: "team-bodhaditya-santra",
     linkedin: "https://www.linkedin.com/in/bodhaditya-santra-b3069783/",
   },
