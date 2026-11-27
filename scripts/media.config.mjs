@@ -25,6 +25,13 @@ export const media = [
   { name: "dbrpro-cs-sas", src: "assets-src/pdf/page6.jpeg", crop: [36, 1160, 1170, 500] },
 ];
 
+// Team portraits (client-supplied; square crops for the circular frame on About → Team).
+// TODO(client): higher-resolution originals (≥ 600 px) would render sharper on retina screens.
+export const team = [
+  { name: "team-suranita-kanjilal", src: "assets-src/team/suranita-kanjilal.png", crop: [0, 0, 360, 360] },
+  { name: "team-bodhaditya-santra", src: "assets-src/team/bodhaditya-santra.jpg" },
+];
+
 export const logos = [
   { name: "logo-iit-delhi", src: wix("0e615c059eac48db99563789b8de1af6") },
   { name: "logo-fitt", src: wix("f1749ef046484ab6a61d0ccc544ee454") },

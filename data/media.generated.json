@@ -145,6 +145,22 @@
     ],
     "blur": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAACwAQCdASoQAAcAA4BaJaQAAuVuXiwAAP72FFYqC7f5LSBr2wihQcf1Q4AAAA=="
   },
+  "team-suranita-kanjilal": {
+    "width": 360,
+    "height": 360,
+    "widths": [
+      360
+    ],
+    "blur": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQAgCdASoQABAAA4BaJagCdH8AFNzIg3faAP7Kt7TJPA07tsqgy+zMhfRZdNNgZn430AP0IhO/THTTO7DrX0ZCmHY9I0LQA0KfUCdawYhvshdbjxsIYqDp8+QHIEiAigLDt1B7Gpznq5TD0kD8gZLYOKRMAAAA"
+  },
+  "team-bodhaditya-santra": {
+    "width": 200,
+    "height": 200,
+    "widths": [
+      200
+    ],
+    "blur": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAwAgCdASoQABAAA4BaJbACdAEC18w1d1q7MAD2YNNuuOq8/FLam4ehq63KuJDqxq5K/lcgZnbu9lnhwOKqzza01a/0pkG7nDfqlWjvxc1gBl3LuWQNHB6FgRaHmJy7/FHbhYPzrVkAAA=="
+  },
   "logo-iit-delhi": {
     "width": 220,
     "height": 220,

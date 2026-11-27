@@ -2,6 +2,7 @@
 // Lists marked TODO(client) are intentionally empty: their sections are hidden until filled,
 // so the site never shows "coming soon" placeholders.
 import type { QA, Paper } from "@/data/product-extras";
+import type { MediaName } from "@/lib/image-loader";
 import { site } from "@/data/site";
 
 /** Home + Resources FAQ (Infleqtion/Nireos pattern: answers buyers' routing questions). */
@@ -91,23 +92,31 @@ export type TeamMember = {
   name: string;
   role: string;
   bio?: string;
-  /** Path under /public, e.g. "/team/jane-doe.webp" (square, ≥ 600 px). */
-  photo?: string;
+  /** Square portrait from the media pipeline (scripts/media.config.mjs → `team`). */
+  photo?: MediaName;
   linkedin?: string;
   /** Shown as a styled placeholder card until real details are supplied. */
   placeholder?: boolean;
 };
 
 /**
- * People behind PrenishQ (About → Team). TODO(client): replace each placeholder with a real
- * name, role, short bio and photo; remove `placeholder: true` as you go.
+ * People behind PrenishQ (About → Team). TODO(client): founders' short bios. To add someone,
+ * append an entry (photo via scripts/media.config.mjs → `team`).
  */
-export const team: TeamMember[] = Array.from({ length: 6 }, () => ({
-  name: "Name Surname",
-  role: "Role / title",
-  bio: "A short bio of one or two lines will appear here.",
-  placeholder: true,
-}));
+export const team: TeamMember[] = [
+  {
+    name: "Dr Suranita Kanjilal",
+    role: "Co-founder and CEO",
+    photo: "team-suranita-kanjilal",
+    linkedin: "https://www.linkedin.com/in/suranita281kanjilal83/",
+  },
+  {
+    name: "Dr Bodhaditya Santra",
+    role: "Co-founder and CTO",
+    photo: "team-bodhaditya-santra",
+    linkedin: "https://www.linkedin.com/in/bodhaditya-santra-b3069783/",
+  },
+];
 
 /** Dated milestones. TODO(client). */
 export const milestones: { date: string; title: string; detail?: string }[] = [];

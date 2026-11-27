@@ -1,6 +1,7 @@
 import { createElement } from "react";
 import type { Metadata } from "next";
 import { site, funders } from "@/data/site";
+import { team } from "@/data/content";
 import type { Product } from "@/data/products";
 import manifest from "@/data/media.generated.json";
 
@@ -46,6 +47,9 @@ export function organizationJsonLd() {
       email: d.email,
     })),
     funder: funders.map((f) => ({ "@type": "Organization", name: f.name })),
+    founder: team
+      .filter((m) => !m.placeholder && /co-?founder/i.test(m.role))
+      .map((m) => ({ "@type": "Person", name: m.name, jobTitle: m.role, ...(m.linkedin ? { sameAs: [m.linkedin] } : {}) })),
   };
 }
 

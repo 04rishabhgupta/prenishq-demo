@@ -2,7 +2,7 @@
 // Run: pnpm media   (outputs are committed so builds don't need the sources)
 import sharp from "sharp";
 import { mkdir, writeFile, stat } from "node:fs/promises";
-import { media, logos, WIDTHS, LOGO_WIDTHS } from "./media.config.mjs";
+import { media, logos, team, WIDTHS, LOGO_WIDTHS } from "./media.config.mjs";
 
 const OUT = "public/media";
 await mkdir(OUT, { recursive: true });
@@ -37,6 +37,7 @@ async function build(entry, widths, quality) {
 }
 
 for (const m of media) await build(m, WIDTHS, { avif: 55, webp: 72 });
+for (const t of team) await build(t, [], { avif: 70, webp: 85 });
 for (const l of logos) await build(l, LOGO_WIDTHS, { avif: 70, webp: 85 });
 
 await writeFile("data/media.generated.json", JSON.stringify(manifest, null, 2) + "\n");
