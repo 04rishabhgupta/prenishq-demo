@@ -763,3 +763,24 @@
   background: var(--cyan);
   transform: scale(1.5);
 }
+
+/* ── Hero footage (lib/fx heroVideo). Fades in over the poster once frames flow. ── */
+@property --beam {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #8b5cf6;
+}
+.hero-video {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+[data-video="on"] .hero-video {
+  opacity: 1;
+}
+/* The footage takes on the current wavelength, as if lit by the beam landing on the card. */
+.hero-video-tint {
+  background:
+    radial-gradient(90% 70% at 50% 0%, color-mix(in srgb, var(--beam) 30%, transparent), transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--beam) 10%, transparent), color-mix(in srgb, var(--beam) 10%, transparent));
+  transition: --beam 0.8s ease;
+}

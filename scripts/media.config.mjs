@@ -11,6 +11,8 @@ export const media = [
   { name: "opal-fibre-alt", src: wix("6182578233f84d39890f97226993884b") },
   { name: "opal-free-space", src: wix("abc3d31f8add4550967d96fbe6ed4b40") },
   { name: "agate", src: wix("94abf2a81d2c49208f94eb5818e57be1") },
+  // Hero video poster (first frame of public/video/hero-lab.*; see assets-src/video/README.md)
+  { name: "hero-lab-poster", src: "assets-src/video/hero-lab-poster.png" },
   // Genuine bench photo
   { name: "opal-bench-photo", src: wix("a230be94b5744ba99bbbbc544aa9ccb1", "jpeg") },
   // OPAL validation figures (live site)

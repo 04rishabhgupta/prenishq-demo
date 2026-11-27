@@ -47,6 +47,17 @@
     ],
     "blur": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAACQAQCdASoQAAkAA4BaJYzyFGMAMoAA/vM5iT+sr7l/CdIAoFLmDjFgX2av3axpOrzixLVb4fiEA10eAAA="
   },
+  "hero-lab-poster": {
+    "width": 960,
+    "height": 600,
+    "widths": [
+      384,
+      640,
+      828,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwAQCdASoQAAoAA4BaJZwAD5PtsBKpb2gA/vW+bDrUy5FUBG+fOzXQVoeHByPKcFQXr9OG4V14DRmREKW8Ky3jutpf2hrei6dadOhlgV3zsRDlGVnNmnRhOmL59cRQUrVsBSwAAAA="
+  },
   "opal-bench-photo": {
     "width": 1280,
     "height": 960,

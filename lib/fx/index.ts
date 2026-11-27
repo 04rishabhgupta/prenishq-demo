@@ -12,11 +12,71 @@ export function init(): Cleanup {
   const desktop = matchMedia("(min-width: 1024px)").matches;
 
   cleanups.push(pauseOffscreenLoops());
+  cleanups.push(heroVideo());
   if (finePointer) cleanups.push(pointerEffects());
   cleanups.push(...lasers(desktop, finePointer));
   if (desktop) cleanups.push(story());
 
   return () => cleanups.forEach((c) => c());
+}
+
+/**
+ * Hero footage: sources are attached only now (after idle, full-motion profile only), so the
+ * video never competes with first paint; it plays only while on screen and fades in over the
+ * poster once frames are flowing. Save-Data / 2G keep the poster. A pause button (WCAG 2.2.2)
+ * appears once it plays.
+ */
+function heroVideo(): Cleanup {
+  const video = document.querySelector<HTMLVideoElement>("video[data-hero-video]");
+  const frame = video?.closest<HTMLElement>("[data-hero-video-frame]");
+  if (!video || !frame) return () => {};
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  if (conn?.saveData || /2g/.test(conn?.effectiveType ?? "")) return () => {};
+
+  for (const [type, key] of [["video/webm", "srcWebm"], ["video/mp4", "srcMp4"]] as const) {
+    const src = video.dataset[key];
+    if (!src) continue;
+    const source = document.createElement("source");
+    source.src = src;
+    source.type = type;
+    video.appendChild(source);
+  }
+  video.preload = "auto";
+
+  const toggle = frame.querySelector<HTMLButtonElement>("[data-hero-video-toggle]");
+  let userPaused = false;
+  let onScreen = false;
+  const sync = () => {
+    if (onScreen && !userPaused && !document.hidden) video.play().catch(() => {});
+    else video.pause();
+  };
+  const onPlaying = () => {
+    frame.setAttribute("data-video", "on");
+    if (toggle) toggle.hidden = false;
+  };
+  const onToggle = () => {
+    userPaused = !userPaused;
+    sync();
+    if (!toggle) return;
+    toggle.setAttribute("aria-label", userPaused ? "Play background video" : "Pause background video");
+    toggle.querySelector<SVGElement>('[data-icon="pause"]')?.style.setProperty("display", userPaused ? "none" : "");
+    toggle.querySelector<SVGElement>('[data-icon="play"]')?.style.setProperty("display", userPaused ? "" : "none");
+  };
+  const io = new IntersectionObserver((entries) => {
+    onScreen = entries.some((e) => e.isIntersecting);
+    sync();
+  });
+  video.addEventListener("playing", onPlaying);
+  toggle?.addEventListener("click", onToggle);
+  document.addEventListener("visibilitychange", sync);
+  io.observe(frame);
+  return () => {
+    io.disconnect();
+    video.pause();
+    video.removeEventListener("playing", onPlaying);
+    toggle?.removeEventListener("click", onToggle);
+    document.removeEventListener("visibilitychange", sync);
+  };
 }
 
 /** CSS loops marked [data-loop] only run while on screen. */

@@ -91,15 +91,45 @@ export function Hero() {
                   </span>
                 </span>
               </header>
-              <div className="relative aspect-[16/10] overflow-hidden">
+              {/* Laser-lab footage. The poster paints first (LCP-safe); lib/fx attaches the video
+                  sources after idle and plays it only while on screen. Reduced-motion, Save-Data and
+                  low-power visitors keep the poster. Source and licence: assets-src/video/README.md. */}
+              <div data-hero-video-frame className="group/video relative aspect-[16/10] overflow-hidden bg-black">
                 <Picture
-                  name="opal-fibre"
-                  alt={OPAL.imageAlt}
+                  name="hero-lab-poster"
+                  alt="Close-up of laser mirror mounts on an optical table"
                   sizes="(min-width: 1024px) 480px, 92vw"
                   className="absolute inset-0"
                   imgClassName="!h-full object-cover"
                 />
+                <video
+                  data-hero-video
+                  data-src-webm="/video/hero-lab.webm"
+                  data-src-mp4="/video/hero-lab.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  disablePictureInPicture
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  className="hero-video absolute inset-0 h-full w-full object-cover"
+                />
+                {/* Wavelength tint: the footage takes on the current beam colour. */}
+                <div aria-hidden className="hero-video-tint absolute inset-0" />
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                <button
+                  type="button"
+                  data-hero-video-toggle
+                  hidden
+                  aria-label="Pause background video"
+                  className="absolute bottom-3 right-3 z-10 grid size-8 place-items-center rounded-full border border-line-strong bg-bg/70 text-fg-2 opacity-70 transition-opacity hover:text-fg hover:opacity-100 focus-visible:opacity-100 sm:opacity-0 sm:group-hover/video:opacity-100"
+                >
+                  <svg viewBox="0 0 16 16" className="size-3.5" fill="currentColor" aria-hidden="true">
+                    <path data-icon="pause" d="M4 3h3v10H4zM9 3h3v10H9z" />
+                    <path data-icon="play" d="M5 3l8 5-8 5z" style={{ display: "none" }} />
+                  </svg>
+                </button>
               </div>
               <dl className="grid grid-cols-3 border-t border-line">
                 {OPAL.headline.map((s) => (
